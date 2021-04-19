@@ -1,8 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import logo from "./logo.svg";
 import "./App.css";
 import Login from "./features/user/Login";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function App() {
   return (
@@ -10,21 +11,27 @@ function App() {
       <Switch>
         <Route path="/" exact>
           <div className="App">
-            <header className="App-header">
-            xd
-            </header>
+            <header className="App-header">xd</header>
           </div>
         </Route>
         <Route path="/login">
-        <Login />
+          <Login />
+        </Route>
+        <Route path="/signup">
+          <Login />
           <a
             href={`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&scope=user:email`}
           >
-            Uth
+            signup
           </a>
         </Route>
         <Route path="/oauth/github">
-          <p>test</p>
+          <Login />
+          <Backdrop
+            open={true}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
         </Route>
       </Switch>
     </Router>
