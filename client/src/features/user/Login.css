@@ -1,0 +1,54 @@
+.login {
+  padding: 18px 22px 17px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login__appLogo {
+  align-self: flex-start;
+}
+
+.login__title {
+  margin-top: 28px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  color: var(--black1);
+}
+
+.login__description {
+  margin-top: 14px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--black1);
+}
+
+.login__form {
+  margin-top: 34px;
+}
+
+.login__inputBox {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  max-width: 355px;
+  height: 48px;
+  border: 1px solid var(--gray3);
+  border-radius: 8px;
+}
+
+.login__inputBox:focus-within {
+  border: 1px solid var(--blue);
+  border-radius: 8px;
+}
+
+.login__input {
+  flex: 1;
+  margin-left: 12px;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--gray3);
+}

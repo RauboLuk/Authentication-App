@@ -1,13 +1,13 @@
 :root {
   --black1: #333333;
-  --gray1: #4F4F4F;
+  --gray1: #4f4f4f;
   --gray2: #828282;
-  --gray3: #BDBDBD;
-  --gray4: #E0E0E0;
-  --gray5: #F2F2F2;
-  --blue: #2F80ED;
-  --blue2: #2D9CDB;
-  --red: #EB5757;
+  --gray3: #bdbdbd;
+  --gray4: #e0e0e0;
+  --gray5: #f2f2f2;
+  --blue: #2f80ed;
+  --blue2: #2d9cdb;
+  --red: #eb5757;
 }
 
 html {
@@ -31,4 +31,15 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+input {
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  font-family: "Noto Sans JP", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  width: 100%;
 }

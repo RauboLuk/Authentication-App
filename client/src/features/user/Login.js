@@ -6,7 +6,7 @@ import "./Login.css";
 
 import MailIcon from "@material-ui/icons/Mail";
 import LockIcon from "@material-ui/icons/Lock";
-import logo from "../../assets/images/devchallenges-light.svg";
+import logo from "../../assets/images/devchallenges.svg";
 import githubLogo from '../../assets/images/Gihub.svg'
 import LoginButton from "./LoginButton";
 
@@ -27,25 +27,25 @@ const Login = () => {
 
   return (
     <section className="login">
-      <img src={logo} className="App-logo" alt="logo" />
-      <h1>Join thousands of learners from around the world </h1>
-      <p>
+      <img src={logo} className="login__appLogo" alt="logo"/>
+      <h1 className="login__title">Join thousands of learners from around the world </h1>
+      <p className="login__description">
         Master web development by making real-life projects. There are multiple
         paths for you to choose
       </p>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
+      <form onSubmit={handleSubmit(onSubmit)} className="login__form">
+        <div className="login__inputBox">
           <MailIcon />
-          <input
+          <input className="login__input"
             {...register("email")}
             type="text"
             placeholder="Email"
           />
           <p>{errors.email?.message}</p>
         </div>
-        <div>
+        <div className="login__inputBox">
           <LockIcon />
-          <input
+          <input className="login__input"
             {...register("password")}
             type="password"
             placeholder="Password"
