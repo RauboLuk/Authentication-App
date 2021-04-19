@@ -1,6 +1,6 @@
 const OauthButton = ({ url, children }) => {
   return (
-    <a
+    <a style={{display: "inherit"}}
       href={url}
     >{children}
     </a>

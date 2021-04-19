@@ -4,16 +4,21 @@ import * as yup from "yup";
 import { Link } from "react-router-dom";
 import "./Login.css";
 
-import MailIcon from "@material-ui/icons/Mail";
-import LockIcon from "@material-ui/icons/Lock";
-import logo from "../../assets/images/devchallenges-light.svg";
-import githubLogo from '../../assets/images/Gihub.svg'
-import LoginButton from "./LoginButton";
+import logo from "../../assets/images/devchallenges.svg";
+import githubLogo from "../../assets/images/Gihub.svg";
+import OauthButton from "./OauthButton";
+import AuthenticationForm from "./AuthenticationForm";
 
 const Login = () => {
   const schema = yup.object().shape({
-    email: yup.string().email().required(),
-    password: yup.string().matches(new RegExp("^[a-zA-Z0-9]{3,30}$"), "Allowed length 3-30. Allowed chars a-z A-Z 0-9"),
+    email: yup.string().required().email(),
+    password: yup
+      .string()
+      .required()
+      .matches(
+        new RegExp("^[a-zA-Z0-9]{3,30}$"),
+        "allowed length 3-30, allowed chars a-z A-Z 0-9"
+      ),
   });
 
   const {
@@ -22,42 +27,45 @@ const Login = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-  });  
+  });
   const onSubmit = (data) => console.log(data);
 
   return (
     <section className="login">
-      <img src={logo} className="App-logo" alt="logo" />
-      <h1>Join thousands of learners from around the world </h1>
-      <p>
-        Master web development by making real-life projects. There are multiple
-        paths for you to choose
-      </p>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <MailIcon />
-          <input
-            {...register("email")}
-            type="text"
-            placeholder="Email"
-          />
-          <p>{errors.email?.message}</p>
-        </div>
-        <div>
-          <LockIcon />
-          <input
-            {...register("password")}
-            type="password"
-            placeholder="Password"
-          />
-          <p>{errors.password?.message}</p>
-        </div>
-        <input type="submit" />
-      </form>
-      <p>or continue with these social profile</p>
-      <LoginButton url={`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&scope=user:email`}><img src={githubLogo} alt="github" /></LoginButton>
-      <p>Adready a member? Login</p> <Link>ds</Link>
-
+      <div className="login__box">
+        <img src={logo} className="login__appLogo" alt="logo" />
+        <h1 className="login__title">
+          Join thousands of learners from around the world
+        </h1>
+        <p className="login__description">
+          Master web development by making real-life projects. There are
+          multiple paths for you to choose
+        </p>
+        <AuthenticationForm
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+          register={register}
+          errors={errors}
+        />
+        <p className="login__text">or continue with these social profile</p>
+        <section className="login__oauth">
+          <OauthButton
+            url={`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&scope=user:email`}
+          >
+            <img src={githubLogo} alt="github" />
+          </OauthButton>
+        </section>
+        <p className="login__text login__text--mt26">
+          Adready a member?{" "}
+          <Link to="/login" className="login__link">
+            Login
+          </Link>
+        </p>
+      </div>
+      <div className="login__footer">
+        <p>& Raubo</p>
+        <p>devchallenges.io</p>
+      </div>
     </section>
   );
 };

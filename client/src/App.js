@@ -8,32 +8,30 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route path="/" exact>
-          <div className="App">
+      <div className="app">
+        <Switch>
+          <Route path="/" exact>
             <header className="App-header">xd</header>
-          </div>
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/signup">
-          <Login />
-          <a
-            href={`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&scope=user:email`}
-          >
-            signup
-          </a>
-        </Route>
-        <Route path="/oauth/github">
-          <Login />
-          <Backdrop
-            open={true}
-          >
-            <CircularProgress color="inherit" />
-          </Backdrop>
-        </Route>
-      </Switch>
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/signup">
+            <Login />
+            <a
+              href={`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&scope=user:email`}
+            >
+              signup
+            </a>
+          </Route>
+          <Route path="/oauth/github">
+            <Login />
+            <Backdrop open={true} style={{zIndex: 1}}>
+              <CircularProgress color="inherit" />
+            </Backdrop>
+          </Route>
+        </Switch>
+      </div>
     </Router>
   );
 }
