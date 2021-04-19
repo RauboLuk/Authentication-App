@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link } from "react-router-dom";
+import "./Login.css";
 
 import MailIcon from "@material-ui/icons/Mail";
 import LockIcon from "@material-ui/icons/Lock";
@@ -11,8 +12,8 @@ import LoginButton from "./LoginButton";
 
 const Login = () => {
   const schema = yup.object().shape({
-    email: yup.string().email(),
-    password: yup.string().matches(new RegExp("^[a-zA-Z0-9]{3,30}$")),
+    email: yup.string().email().required(),
+    password: yup.string().matches(new RegExp("^[a-zA-Z0-9]{3,30}$"), "Allowed length 3-30. Allowed chars a-z A-Z 0-9"),
   });
 
   const {
@@ -25,7 +26,7 @@ const Login = () => {
   const onSubmit = (data) => console.log(data);
 
   return (
-    <section>
+    <section className="login">
       <img src={logo} className="App-logo" alt="logo" />
       <h1>Join thousands of learners from around the world </h1>
       <p>
@@ -36,7 +37,7 @@ const Login = () => {
         <div>
           <MailIcon />
           <input
-            {...register("email", { required: true })}
+            {...register("email")}
             type="text"
             placeholder="Email"
           />
@@ -45,10 +46,11 @@ const Login = () => {
         <div>
           <LockIcon />
           <input
-            {...register("password", { required: true })}
+            {...register("password")}
             type="password"
             placeholder="Password"
           />
+          <p>{errors.password?.message}</p>
         </div>
         <input type="submit" />
       </form>
