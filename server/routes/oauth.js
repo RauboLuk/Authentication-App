@@ -1,34 +1,34 @@
-const axios = require("axios");
 const express = require("express");
 const router = express.Router();
+const axios = require("axios");
 
-/* GET users listing. */
+const clientID = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
+
 router.get("/github", async (req, res, next) => {
-  // const auth = axios.get(`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user:email`)
-  // console.log(new URLSearchParams(auth));
-
-  const clientID = process.env.CLIENT_ID;
-  const clientSecret = process.env.CLIENT_SECRET;
   const requestToken = req.query.code;
 
-  const client = await axios.post(
-    `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${requestToken}`
-  );
-  const params = new URLSearchParams(client.data);
-  console.log(params);
-  const access_token = params.get("access_token");
-  console.log(access_token);
-
-  const user = await axios.get(
-    'https://api.github.com/user',{
-      headers: {
-        'Authorization': `token ${access_token}`
+  try {
+    const client = await axios.post(
+      `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${requestToken}`,
+      {
+        client_id: clientID,
+        client_secret: clientSecret,
+        code: requestToken,
+      },
+      {
+        headers: {
+          accept: "application/json",
+        },
       }
-    }
-  )
+    );
 
-  console.log(user);
-  res.json(user.data);
+    const accessToken = client.data.access_token;
+    res.redirect(`localhost:3000/welcome?access_token=${accessToken}`);
+  } catch (error) {
+    console.log(error.message);
+    res.redirect("localhost:3000/login");
+  }
 });
 
 module.exports = router;
