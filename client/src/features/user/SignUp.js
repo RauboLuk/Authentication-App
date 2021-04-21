@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useLocation } from "react-router-dom";
-import "./Login.css";
+import "./SignUp.css";
 
 import logo from "../../assets/images/devchallenges.svg";
 import githubLogo from "../../assets/images/Gihub.svg";
@@ -12,13 +12,14 @@ import AuthenticationForm from "./AuthenticationForm";
 import Snackbar from "@material-ui/core/Snackbar";
 import { useState } from "react";
 
-const Login = () => {
-  const [loginError, setLoginError] = useState(
+const SignUp = () => {
+  const [error, setError] = useState(
     new URLSearchParams(useLocation().search).get("error")
   );
-  if (loginError) {
-    setTimeout(() => setLoginError(null), 3000);
+  if (error) {
+    setTimeout(() => setError(null), 3000);
   }
+
   const schema = yup.object().shape({
     email: yup.string().required().email(),
     password: yup
@@ -37,38 +38,42 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const onSubmit = (data) => {console.log(data)};
 
   return (
-    <section className="login">
-      <Snackbar open={!!loginError} message="Login failed. Try again..." />
-      <div className="login__box">
-        <img src={logo} className="login__appLogo" alt="logo" />
-        <h1 className="login__title">Login</h1>
+    <section className="signUp">
+      <Snackbar open={!!error} message="Sign up failed. Try again..." />
+      <div className="signUp__box">
+        <img src={logo} className="signUp__appLogo" alt="logo" />
+        <h1 className="signUp__title">
+          Join thousands of learners from around the world
+        </h1>
+        <p className="signUp__description">
+          Master web development by making real-life projects. There are
+          multiple paths for you to choose
+        </p>
         <AuthenticationForm
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
           register={register}
           errors={errors}
         />
-        <p className="login__text">or continue with these social profile</p>
-        <section className="login__oauth">
+        <p className="signUp__text">or continue with these social profile</p>
+        <section className="signUp__oauth">
           <OauthButton
             url={`https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&scope=user:email`}
           >
             <img src={githubLogo} alt="github" />
           </OauthButton>
         </section>
-        <p className="login__text login__text--mt26">
-          Don’t have an account yet?{" "}
-          <Link to="/signup" className="login__link">
-            Register
+        <p className="signUp__text signUp__text--mt26">
+          Adready a member?{" "}
+          <Link to="/signIn" className="signUp__link">
+            Login
           </Link>
         </p>
       </div>
-      <div className="login__footer">
+      <div className="signUp__footer">
         <p>& Raubo</p>
         <p>devchallenges.io</p>
       </div>
@@ -76,4 +81,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

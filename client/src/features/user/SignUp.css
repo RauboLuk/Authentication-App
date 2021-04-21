@@ -1,20 +1,20 @@
-.login {
+.signUp {
   padding: 18px 22px 17px 16px;
   max-width: 393px;
 }
 
-.login__box {
+.signUp__box {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding-bottom: 65px;
 }
 
-.login__appLogo {
+.signUp__appLogo {
   align-self: flex-start;
 }
 
-.login__title {
+.signUp__title {
   width: 90%;
   margin-top: 28px;
   font-weight: 600;
@@ -23,7 +23,7 @@
   color: var(--black1);
 }
 
-.login__description {
+.signUp__description {
   width: 90%;
   margin-top: 14px;
   font-weight: 400;
@@ -32,11 +32,11 @@
   color: var(--black1);
 }
 
-.login__form {
+.signUp__form {
   margin-top: 20px;
 }
 
-.login__inputBox {
+.signUp__inputBox {
   margin-top: 14px;
   display: flex;
   align-items: center;
@@ -47,12 +47,12 @@
   border-radius: 8px;
 }
 
-.login__inputBox:focus-within {
+.signUp__inputBox:focus-within {
   border: 1px solid var(--blue1);
   border-radius: 8px;
 }
 
-.login__input {
+.signUp__input {
   flex: 1;
   margin-left: 12px;
   font-size: 16px;
@@ -60,7 +60,7 @@
   color: var(--gray1);
 }
 
-.login__submit {
+.signUp__submit {
   margin-top: 22px;
   max-width: 355px;
   height: 38px;
@@ -76,7 +76,7 @@
   color: #ffffff;
 }
 
-.login__text {
+.signUp__text {
   margin-top: 30px;
   font-size: 14px;
   line-height: 19px;
@@ -86,18 +86,18 @@
   color: var(--gray2);
 }
 
-.login__text--mt26 {
+.signUp__text--mt26 {
   margin-top: 27px;
 }
 
-.login__oauth {
+.signUp__oauth {
   margin-top: 22px;
   display: flex;
   align-content: center;
   justify-content: space-evenly;
 }
 
-.login__footer {
+.signUp__footer {
   margin: 5px auto;
   max-width: 355px;
   display: flex;
