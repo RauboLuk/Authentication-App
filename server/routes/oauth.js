@@ -5,10 +5,14 @@ const axios = require("axios");
 const clientID = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 
+class LoginError extends Error {}
+
 router.get("/github", async (req, res, next) => {
   const requestToken = req.query.code;
 
+  console.log(req.query);
   try {
+    if (req.query.error) throw new LoginError(req.query.error_description);
     const client = await axios.post(
       `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${requestToken}`,
       {
@@ -24,10 +28,15 @@ router.get("/github", async (req, res, next) => {
     );
 
     const accessToken = client.data.access_token;
-    res.redirect(`localhost:3000/welcome?access_token=${accessToken}`);
+    console.log(accessToken);
+    res.redirect(`http://localhost:3001/welcome/${accessToken}`);
   } catch (error) {
     console.log(error.message);
-    res.redirect("localhost:3000/login");
+    if (error instanceof LoginError) {
+      res.redirect("http://localhost:3001/login");
+    } else {
+      throw error;
+    }
   }
 });
 
