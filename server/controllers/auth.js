@@ -3,6 +3,7 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
 authRouter.post("/signup", async (req, res, next) => {
+  console.log('here');
   try {
     const body = req.body;
 
@@ -16,12 +17,8 @@ authRouter.post("/signup", async (req, res, next) => {
     const passwordHash = await bcrypt.hash(body.password, saltRounds);
 
     const user = new User({
-      name: body.name,
-      bio: body.bio,
-      phone: body.phone,
       email: body.email,
       passwordHash,
-      // img: TODO
     });
 
     const createdUser = await user.save();

@@ -24,9 +24,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/oauth", oauthRouter);
+app.use("/", indexRouter);
 
 app.listen(port, () => {
   console.log(`Authentication app listening at http://localhost:${port}`);

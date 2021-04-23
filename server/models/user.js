@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     minlength: 3,
-    required: true,
   },
   bio: String,
   phone: {
@@ -23,13 +22,14 @@ const userSchema = new mongoose.Schema({
     data: Buffer,
     contentType: String,
   },
-  createdAt: { type: Date, expires: 300, default: Date.now() },
+  // TODO
+  // createdAt: { type: Date, expires: 300, default: Date.now() },
 });
 
 userSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
-    delete returnedObject.__id;
+    delete returnedObject._id;
     delete returnedObject.__v;
     delete returnedObject.passwordHash;
   },
