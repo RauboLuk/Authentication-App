@@ -3,7 +3,6 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
 authRouter.post("/signup", async (req, res, next) => {
-  console.log('here');
   try {
     const body = req.body;
 
@@ -11,6 +10,12 @@ authRouter.post("/signup", async (req, res, next) => {
       return res
         .status(400)
         .send({ error: "Minimum password length: 5 characters" });
+    }
+
+    if (!/\S+@\S+\.\S+/.test(body.email)) {
+      return res
+        .status(400)
+        .send({ error: "Invalid email format. Expected format _@_._" });
     }
 
     const saltRounds = 10;
