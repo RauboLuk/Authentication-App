@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
+const config = require('../utils/config')
 
-const clientID = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
+const clientID = config.CLIENT_ID;
+const clientSecret = config.CLIENT_SECRET;
 
 class LoginError extends Error {}
 
@@ -33,7 +34,7 @@ router.get("/github", async (req, res, next) => {
   } catch (error) {
     console.log(error.message);
     if (error instanceof LoginError) {
-      res.redirect(`http://localhost:3001/signin?error=${error.message}`);
+      res.redirect(`http://localhost:3001/signup?error=${error.message}`);
     } else {
       throw error;
     }
