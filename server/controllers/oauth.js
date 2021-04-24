@@ -29,8 +29,27 @@ router.get("/github", async (req, res, next) => {
     );
 
     const accessToken = client.data.access_token;
-    console.log(accessToken);
-    res.redirect(`http://localhost:3001/welcome?access_token=${accessToken}`);
+    console.log('accessToken', accessToken);
+    const githubUserData = await axios.get('https://api.github.com/user', {
+      headers: {
+        Authorization: `token ${accessToken}`
+      }
+    })
+
+    res.cookie('id', 'testid', {
+      maxAge: 1000 * 60, // * 24 * 7,
+      // httpOnly: true,
+      secure: true,
+      sameSite: true,
+    }).redirect(`http://localhost:3001/welcome?access_token=${accessToken}`);
+
+    // if( userExist(githubUserData.data.id, 'github') ) {
+      
+    // } else {
+
+    // }
+    console.log(githubUserData.data.id);
+    // res.redirect(`http://localhost:3001/welcome?access_token=${accessToken}`);
   } catch (error) {
     console.log(error.message);
     if (error instanceof LoginError) {
