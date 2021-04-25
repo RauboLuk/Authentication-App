@@ -1,5 +1,4 @@
 const User = require("../models/user");
-const bcrypt = require("bcrypt");
 
 const handeErrors = (e) => {
   console.log(e.mesage, e.code);
@@ -22,18 +21,9 @@ module.exports.signup_post = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
-    if (!/.{5,}/.test(password)) {
-      return res
-        .status(400)
-        .send({ error: "Minimum password length: 5 characters" });
-    }
-
-    const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(password, saltRounds);
-
     const user = new User({
       email,
-      passwordHash,
+      password,
     });
 
     const createdUser = await user.save();

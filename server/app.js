@@ -41,3 +41,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/auth", authRouter);
 app.use("/api/oauth", oauthRouter);
 app.use("/api/", indexRouter);
+
+app.get("/set-cookies", (req, res) => {
+  res.setHeader("Set-Cookie", "newUser=true");
+
+  res.send('you hot!')
+});
+
+app.get("/read-cookies", (req, res) => {});
