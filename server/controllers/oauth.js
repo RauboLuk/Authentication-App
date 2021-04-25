@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
-const config = require('../utils/config')
+const config = require("../utils/config");
 
 const clientID = config.CLIENT_ID;
 const clientSecret = config.CLIENT_SECRET;
@@ -29,22 +29,31 @@ router.get("/github", async (req, res, next) => {
     );
 
     const accessToken = client.data.access_token;
-    console.log('accessToken', accessToken);
-    const githubUserData = await axios.get('https://api.github.com/user', {
+    console.log("accessToken", accessToken);
+    const githubUserData = await axios.get("https://api.github.com/user", {
       headers: {
-        Authorization: `token ${accessToken}`
-      }
-    })
+        Authorization: `token ${accessToken}`,
+      },
+    });
 
-    res.cookie('id', 'testid', {
-      maxAge: 1000 * 60, // * 24 * 7,
-      // httpOnly: true,
-      secure: true,
-      sameSite: true,
-    }).redirect(`http://localhost:3001/welcome?access_token=${accessToken}`);
+    res.cookie("username", "Flavio", {
+      domain: "localhost",
+      path: "/",
+    });
+
+    res
+      .cookie("token", "testid", {
+        maxAge: 1000 * 60, // * 24 * 7,
+        // httpOnly: true,
+        secure: true,
+        sameSite: true,
+        path: "/",
+        domain: "http://localhost:3001/",
+      })
+      .redirect(`http://localhost:3001/welcome?access_token=${accessToken}`);
 
     // if( userExist(githubUserData.data.id, 'github') ) {
-      
+
     // } else {
 
     // }

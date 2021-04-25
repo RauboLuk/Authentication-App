@@ -1,8 +1,7 @@
-const authRouter = require("express").Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
-authRouter.post("/signup", async (req, res, next) => {
+module.exports.signup_post = async (req, res, next) => {
   try {
     const body = req.body;
 
@@ -32,6 +31,25 @@ authRouter.post("/signup", async (req, res, next) => {
   } catch (exception) {
     next(exception);
   }
-});
+};
 
-module.exports = authRouter;
+module.exports.login_post = async (req, res, next) => {
+  res.send('login_post');
+};
+
+module.exports.logout_post = async (req, res, next) => {
+  // try {
+  //   console.log("in");
+
+  //   return res
+  //     .cookie("username", "Flavio", {
+  //       maxAge: 0,
+  //       domain: "localhost",
+  //       path: "/",
+  //     })
+  //     .sendStatus(200);
+
+  //   res.clearCookie("token", { path: "/" });
+  // } catch (error) {}
+  res.send('logout_post');
+};
