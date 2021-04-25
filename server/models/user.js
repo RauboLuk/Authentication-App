@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { isEmail } = require("validator");
 const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = new mongoose.Schema({
@@ -13,17 +14,25 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    minlength: 3,
-    required: true,
+    required: [true, "Please enter an email"],
     unique: true,
+    minlength: 3,
+    lowercase: true,
+    validate: [isEmail, "Please enter a valid email"],
   },
-  passwordHash: String,
+  passwordHash: {
+    type: String,
+    required: [true, "Please enter a password"],
+  },
   img: {
     data: Buffer,
     contentType: String,
   },
-  // TODO
-  // createdAt: { type: Date, expires: 300, default: Date.now() },
+  createdAt: {
+    type: Date,
+    // expires: 300,
+    default: Date.now(),
+  },
 });
 
 userSchema.set("toJSON", {
@@ -35,6 +44,6 @@ userSchema.set("toJSON", {
   },
 });
 
-userSchema.plugin(uniqueValidator);
+// userSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model("user", userSchema);
