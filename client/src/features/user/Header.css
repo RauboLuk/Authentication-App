@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5vw 2vw;
+}
+
+.header__user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header__imgBox {
+  height: 32px;
+  width: 32px;
+}
+
+.header__imgBox {
+  height: 32px;
+  width: 32px;
+}
+
+.header__avatar {
+  max-width: 100%;
+  max-height: 100%;
+}

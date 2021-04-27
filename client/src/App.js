@@ -4,7 +4,7 @@ import {
   Switch,
   Route,
   useLocation,
-  Link,
+  Redirect,
 } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
@@ -15,6 +15,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { useDispatch, useSelector } from "react-redux";
 import { login, selectUser } from "./features/user/userSlice";
 import SignUp from "./features/user/SignUp";
+import Header from "./features/user/Header";
 
 const Welcome = () => {
   let accessToken = new URLSearchParams(useLocation().search).get(
@@ -32,36 +33,42 @@ const Welcome = () => {
     console.log(y);
   };
   x();
-  return <div>Welcome {accessToken}</div>;
+  return <div onClick={() => axios.post("http://localhost:3000/api/auth/logout", { })}>Welcome {accessToken}</div>;
 };
 
 function App() {
   const user = useSelector(selectUser);
+  console.log(user);
 
   return (
     <Router>
-      <div className="app">
-        <Switch>
-          <Route path="/" exact>
-            <Link to="/login">xd</Link>
-          </Route>
-          <Route path="/signin">
+      <Switch>
+        <Route path="/signin">
+          <div className="temp">
             <Login />
-          </Route>
-          <Route path="/signup">
+          </div>
+        </Route>
+        <Route path="/signup">
+          <div className="temp">
             <SignUp />
-          </Route>
-          <Route path="/oauth/github">
-            <Login />
-            <Backdrop open={true} style={{ zIndex: 1 }}>
-              <CircularProgress color="inherit" />
-            </Backdrop>
-          </Route>
-          <Route path="/welcome">
-            <Welcome />
-          </Route>
-        </Switch>
-      </div>
+          </div>
+        </Route>
+        <Route path="/oauth/github">
+          <Backdrop open={true} style={{ zIndex: 1 }}>
+            <CircularProgress color="inherit" />
+          </Backdrop>
+        </Route>
+        <Route path="/welcome">
+          <Header />
+          <Welcome />
+        </Route>
+        <Route path="/set-cookies">
+        <p>1</p>
+        </Route>
+        <Route path="/">
+          <Redirect to="/signup" />
+        </Route>
+      </Switch>
     </Router>
   );
 }

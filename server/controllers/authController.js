@@ -1,11 +1,15 @@
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
+const config = require("../utils/config");
+
+const secret = config.SECRET;
 
 const handeErrors = (e) => {
   console.log(e.mesage, e.code);
   let errors = { email: "", password: "" };
 
   if (e.code == 11000) {
-    errors.email = 'That email is already registered'
+    errors.email = "That email is already registered";
   }
 
   if (e.message?.includes("user validation failed")) {
@@ -15,6 +19,13 @@ const handeErrors = (e) => {
   }
 
   return errors;
+};
+
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+  return jwt.sign({ id }, secret, {
+    expiresIn: maxAge,
+  });
 };
 
 module.exports.signup_post = async (req, res, next) => {
@@ -27,11 +38,24 @@ module.exports.signup_post = async (req, res, next) => {
     });
 
     const createdUser = await user.save();
+    const token = createToken(createdUser.id);
 
-    res.status(201).json(createdUser);
+    res.cookie("isEmployee", false, {
+      httpOnly: false,
+      secure: false,
+    });
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: maxAge * 1000,
+      domain: "localhost",
+    });
+
+    res.status(201).json({ user: user.id });
   } catch (error) {
+    // console.log(error);
+    // res.status(400).json(error);
     const errors = handeErrors(error);
-    res.status(400).json(errors);
+    if (errors) res.status(400).json(errors);
     // next(error);
   }
 };

@@ -11,6 +11,7 @@ import AuthenticationForm from "./AuthenticationForm";
 
 import Snackbar from "@material-ui/core/Snackbar";
 import { useState } from "react";
+import axios from "axios";
 
 const SignUp = () => {
   const [error, setError] = useState(
@@ -38,7 +39,25 @@ const SignUp = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => {console.log(data)};
+  const onSubmit = async (data) => {
+    console.log("fe data", data);
+    try {
+      await axios.get("http://localhost:3000/read-cookies", {
+        withCredentials: true,
+      });
+      // const newUser = await axios.post(
+      //   "http://localhost:3000/api/auth/signup",
+      //   data,
+      //   {
+      //     withCredentials: true,
+      //   }
+      // );
+      // console.log("returned user", newUser);
+
+    } catch (error) {
+      console.log("error, user not created");
+    }
+  };
 
   return (
     <section className="signUp">
@@ -82,3 +101,24 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+// fetch("http://localhost:3000/read-cookies", {
+//   method: "GET",
+//   credentials: "include",
+//   mode: "no-cors",
+// })
+//   .then((res) => res.json())
+//   .then((json) => {
+//     console.log(json);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+// {
+//   headers: {
+//     "Access-Control-Allow-Origin": "http://127.0.0.1:3000",
+//     "Content-Type": "application/x-www-form-urlencoded",
+//     "crossdomain": true
+//   },
+// }

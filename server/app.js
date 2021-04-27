@@ -27,10 +27,15 @@ mongoose
   })
   .catch((e) => console.log(e.message));
 
-if (process.env.NODE_ENV.indexOf("dev") > -1) {
-  const cors = require("cors");
-  app.use(cors());
-}
+// if (process.env.NODE_ENV.indexOf("dev") > -1) {
+const cors = require("cors");
+app.use(
+  cors({
+    origin: "http://localhost:3001",
+    credentials: true,
+  })
+);
+// }
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -43,9 +48,23 @@ app.use("/api/oauth", oauthRouter);
 app.use("/api/", indexRouter);
 
 app.get("/set-cookies", (req, res) => {
-  res.setHeader("Set-Cookie", "newUser=true");
+  // res.setHeader("Set-Cookie", "newUser=true");
 
-  res.send('you hot!')
+  res.cookie("newUser", false);
+  res.cookie("isEmployee", false, {
+    maxAge: 1000 * 60 * 60,
+    secure: true,
+    httpOnly: true,
+    sameSite: "none",
+  });
+
+  res.send("you hot!");
 });
 
-app.get("/read-cookies", (req, res) => {});
+app.get("/read-cookies", (req, res) => {
+  console.log(req.config); 
+  const cookies = req.cookies;
+  console.log("c", cookies);
+
+  res.json(cookies);
+});
