@@ -62,9 +62,13 @@ app.get("/set-cookies", (req, res) => {
 });
 
 app.get("/read-cookies", (req, res) => {
-  console.log(req.config); 
+  console.log(req.config);
   const cookies = req.cookies;
   console.log("c", cookies);
 
   res.json(cookies);
+});
+
+app.get("/clear-cookies", (req, res) => {
+  res.status(202).clearCookie("jwt").send("cookie cleared");
 });

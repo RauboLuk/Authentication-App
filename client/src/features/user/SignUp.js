@@ -12,6 +12,7 @@ import AuthenticationForm from "./AuthenticationForm";
 import Snackbar from "@material-ui/core/Snackbar";
 import { useState } from "react";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const SignUp = () => {
   const [error, setError] = useState(
@@ -42,22 +43,23 @@ const SignUp = () => {
   const onSubmit = async (data) => {
     console.log("fe data", data);
     try {
-      await axios.get("http://localhost:3000/read-cookies", {
-        withCredentials: true,
-      });
-      // const newUser = await axios.post(
-      //   "http://localhost:3000/api/auth/signup",
-      //   data,
-      //   {
-      //     withCredentials: true,
-      //   }
-      // );
-      // console.log("returned user", newUser);
-
+      await axios.get("http://localhost:3000/read-cookies");
+      const newUser = await axios.post(
+        "http://localhost:3000/api/auth/signup",
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("returned user", newUser);
     } catch (error) {
       console.log("error, user not created");
     }
   };
+
+  const clearCookie = async () => {
+    await axios.get("http://localhost:3000/clear-cookies");
+  }
 
   return (
     <section className="signUp">
@@ -94,7 +96,7 @@ const SignUp = () => {
       </div>
       <div className="signUp__footer">
         <p>& Raubo</p>
-        <p>devchallenges.io</p>
+        <p onClick={clearCookie}>devchallenges.io</p>
       </div>
     </section>
   );
