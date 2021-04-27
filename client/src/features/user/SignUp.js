@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./SignUp.css";
 
 import logo from "../../assets/images/devchallenges.svg";
@@ -12,11 +12,11 @@ import AuthenticationForm from "./AuthenticationForm";
 import Snackbar from "@material-ui/core/Snackbar";
 import { useState } from "react";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const SignUp = () => {
-  const [error, setError] = useState(
-    new URLSearchParams(useLocation().search).get("error")
-  );
+  let history = useHistory();
+  const [error, setError] = useState(null);
   if (error) {
     setTimeout(() => setError(null), 3000);
   }
@@ -40,28 +40,23 @@ const SignUp = () => {
     resolver: yupResolver(schema),
   });
   const onSubmit = async (data) => {
-    console.log("fe data", data);
     try {
-      await axios.get("http://localhost:3000/read-cookies", {
-        withCredentials: true,
-      });
-      // const newUser = await axios.post(
-      //   "http://localhost:3000/api/auth/signup",
-      //   data,
-      //   {
-      //     withCredentials: true,
-      //   }
-      // );
-      // console.log("returned user", newUser);
-
-    } catch (error) {
-      console.log("error, user not created");
+      const newUser = await axios.post(
+        "http://localhost:3000/api/auth/signup",
+        data
+      );
+      console.log("returned user", newUser.data);
+      history.push("/loggedIn");
+    } catch (err) {
+      if (err.response.data) {
+        setError(err.response.data.errors);
+      } else console.log(err);
     }
   };
 
   return (
     <section className="signUp">
-      <Snackbar open={!!error} message="Sign up failed. Try again..." />
+      <Snackbar open={!!error} message={`${error?.email || error?.password}`} />
       <div className="signUp__box">
         <img src={logo} className="signUp__appLogo" alt="logo" />
         <h1 className="signUp__title">
@@ -101,24 +96,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-// fetch("http://localhost:3000/read-cookies", {
-//   method: "GET",
-//   credentials: "include",
-//   mode: "no-cors",
-// })
-//   .then((res) => res.json())
-//   .then((json) => {
-//     console.log(json);
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
-
-// {
-//   headers: {
-//     "Access-Control-Allow-Origin": "http://127.0.0.1:3000",
-//     "Content-Type": "application/x-www-form-urlencoded",
-//     "crossdomain": true
-//   },
-// }

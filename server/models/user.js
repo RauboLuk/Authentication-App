@@ -35,10 +35,21 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.pre("save", async function () {
+userSchema.pre("save", async function (next) {
   const saltRounds = 10;
   this.password = await bcrypt.hash(this.password, saltRounds);
+  next();
 });
+
+userSchema.statics.login = async function (email, password) {
+  const user = await this.findOne({ email });
+  if (user) {
+    const auth = await bcrypt.compare(password, user.password);
+    if (auth) {
+      return user;
+    } else throw new Error("incorrect password");
+  } else throw new Error("incorrect email");
+};
 
 userSchema.set("toJSON", {
   transform: (document, returnedObject) => {

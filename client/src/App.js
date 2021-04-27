@@ -33,7 +33,13 @@ const Welcome = () => {
     console.log(y);
   };
   x();
-  return <div onClick={() => axios.post("http://localhost:3000/api/auth/logout", { })}>Welcome {accessToken}</div>;
+  return (
+    <div
+      onClick={() => axios.post("http://localhost:3000/api/auth/logout", {})}
+    >
+      Welcome {accessToken}
+    </div>
+  );
 };
 
 function App() {
@@ -43,6 +49,9 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/loggedIn">
+          <div className="temp">loggedIn</div>
+        </Route>
         <Route path="/signin">
           <div className="temp">
             <Login />
@@ -61,9 +70,6 @@ function App() {
         <Route path="/welcome">
           <Header />
           <Welcome />
-        </Route>
-        <Route path="/set-cookies">
-        <p>1</p>
         </Route>
         <Route path="/">
           <Redirect to="/signup" />

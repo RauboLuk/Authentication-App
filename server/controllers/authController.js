@@ -32,30 +32,19 @@ module.exports.signup_post = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
-    const user = new User({
-      email,
-      password,
-    });
-
-    const createdUser = await user.save();
+    const createdUser = await User.create({ email, password });
     const token = createToken(createdUser.id);
 
-    res.cookie("isEmployee", false, {
-      httpOnly: false,
-      secure: false,
-    });
     res.cookie("jwt", token, {
       httpOnly: true,
       maxAge: maxAge * 1000,
       domain: "localhost",
     });
 
-    res.status(201).json({ user: user.id });
+    res.status(201).json({ user: createdUser.id });
   } catch (error) {
-    // console.log(error);
-    // res.status(400).json(error);
     const errors = handeErrors(error);
-    if (errors) res.status(400).json(errors);
+    if (errors) res.status(400).json({ errors });
     // next(error);
   }
 };
@@ -65,8 +54,12 @@ module.exports.login_post = async (req, res, next) => {
 
   try {
     console.log(email);
-  } catch (error) {}
-  res.send("login_post");
+    const user = await User.login(email, password);
+    res.status(200).json({ user: user.id });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({});
+  }
 };
 
 module.exports.logout_post = async (req, res, next) => {

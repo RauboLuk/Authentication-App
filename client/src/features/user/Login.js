@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Link, useLocation } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Link, useHistory } from "react-router-dom";
 import "./Login.css";
 
 import logo from "../../assets/images/devchallenges.svg";
@@ -11,14 +11,15 @@ import AuthenticationForm from "./AuthenticationForm";
 
 import Snackbar from "@material-ui/core/Snackbar";
 import { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
-  const [loginError, setLoginError] = useState(
-    new URLSearchParams(useLocation().search).get("error")
-  );
+  let history = useHistory();
+  const [loginError, setLoginError] = useState(null);
   if (loginError) {
     setTimeout(() => setLoginError(null), 3000);
   }
+
   const schema = yup.object().shape({
     email: yup.string().required().email(),
     password: yup
@@ -37,8 +38,19 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const user = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        data
+      );
+      console.log("returned user", user.data);
+      history.push("/loggedIn");
+    } catch (err) {
+      if (err.response.data) {
+        setLoginError(err.response.data.errors);
+      } else console.log(err);
+    }
   };
 
   return (
