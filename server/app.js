@@ -4,6 +4,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const config = require("./utils/config");
+const { requireAuth } = require("./middleware/authMiddleware");
 
 const indexRouter = require("./controllers/index");
 const authRouter = require("./routes/authRoutes");
@@ -27,7 +28,7 @@ mongoose
   })
   .catch((e) => console.log(e.message));
 
-// if (process.env.NODE_ENV.indexOf("dev") > -1) {
+if (process.env.NODE_ENV.indexOf("dev") > -1) {
 const cors = require("cors");
 app.use(
   cors({
@@ -35,7 +36,7 @@ app.use(
     credentials: true,
   })
 );
-// }
+}
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -44,8 +45,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/auth", authRouter);
-app.use("/api/oauth", oauthRouter);
+app.use("/api/oauth",  oauthRouter);
 app.use("/api/", indexRouter);
+// 
+// app.use("/api/", requireAuth, indexRouter);
 
 app.get("/set-cookies", (req, res) => {
   // res.setHeader("Set-Cookie", "newUser=true");
@@ -62,7 +65,7 @@ app.get("/set-cookies", (req, res) => {
 });
 
 app.get("/read-cookies", (req, res) => {
-  console.log(req.config); 
+  console.log(req.config);
   const cookies = req.cookies;
   console.log("c", cookies);
 

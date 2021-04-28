@@ -8,8 +8,8 @@ const handleErrors = (e) => {
   console.log(e.message, e.code);
   let errors = { email: "", password: "" };
 
-  if (e.message === 'incorrect email' || e.message === 'incorrect password') {
-    errors.email = 'Incorrect email or password';
+  if (e.message === "incorrect email" || e.message === "incorrect password") {
+    errors.email = "Incorrect email or password";
   }
 
   if (e.code == 11000) {
@@ -59,29 +59,21 @@ module.exports.login_post = async (req, res) => {
   try {
     const user = await User.login(email, password);
     const token = createToken(user.id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(200).json({ user: user.id });
-  } 
-  catch (err) {
+  } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
+};
 
-}
-
-module.exports.logout_post = async (req, res, next) => {
-  // try {
-  //   console.log("in");
-
-  //   return res
-  //     .cookie("username", "Flavio", {
-  //       maxAge: 0,
-  //       domain: "localhost",
-  //       path: "/",
-  //     })
-  //     .sendStatus(200);
-
-  //   res.clearCookie("token", { path: "/" });
-  // } catch (error) {}
-  res.send("logout_post");
+module.exports.logout_get = async (req, res) => {
+  try {
+    res.cookie("jwt", "", {
+      maxAge: 0,
+    });
+    res.json("http://localhost:3001/signIn");
+  } catch (error) {
+    console.log(error.message);
+  }
 };
