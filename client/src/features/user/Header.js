@@ -1,7 +1,7 @@
 import "./Header.css";
 import logo from "../../assets/images/devchallenges.svg";
 
-const Header = () => {
+const Header = ({ name }) => {
   return (
     <header className="header">
       <img src={logo} className="header__appLogo" alt="logo" />
@@ -13,7 +13,7 @@ const Header = () => {
             className="header__avatar"
           />
         </div>
-        <p>Name</p>
+        <p>Name {name}</p>
         <p>dd</p>
       </section>
     </header>
