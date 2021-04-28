@@ -4,9 +4,13 @@ const config = require("../utils/config");
 
 const secret = config.SECRET;
 
-const handeErrors = (e) => {
-  console.log(e.mesage, e.code);
+const handleErrors = (e) => {
+  console.log(e.message, e.code);
   let errors = { email: "", password: "" };
+
+  if (e.message === 'incorrect email' || e.message === 'incorrect password') {
+    errors.email = 'Incorrect email or password';
+  }
 
   if (e.code == 11000) {
     errors.email = "That email is already registered";
@@ -43,24 +47,27 @@ module.exports.signup_post = async (req, res, next) => {
 
     res.status(201).json({ user: createdUser.id });
   } catch (error) {
-    const errors = handeErrors(error);
+    const errors = handleErrors(error);
     if (errors) res.status(400).json({ errors });
     // next(error);
   }
 };
 
-module.exports.login_post = async (req, res, next) => {
+module.exports.login_post = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    console.log(email);
     const user = await User.login(email, password);
+    const token = createToken(user.id);
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(200).json({ user: user.id });
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({});
+  } 
+  catch (err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
   }
-};
+
+}
 
 module.exports.logout_post = async (req, res, next) => {
   // try {
