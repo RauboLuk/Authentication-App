@@ -1,7 +1,11 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
+import Snackbar from "@material-ui/core/Snackbar";
 import "./Login.css";
 
 import logo from "../../assets/images/devchallenges.svg";
@@ -9,11 +13,11 @@ import githubLogo from "../../assets/images/Gihub.svg";
 import OauthButton from "./OauthButton";
 import AuthenticationForm from "./AuthenticationForm";
 
-import Snackbar from "@material-ui/core/Snackbar";
-import { useState } from "react";
-import axios from "axios";
+import { fetchUser } from "./userSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
+
   let history = useHistory();
   const [loginError, setLoginError] = useState(null);
   if (loginError) {
@@ -44,8 +48,10 @@ const Login = () => {
         "http://localhost:3000/api/auth/login",
         data
       );
+      // TODO remove
       console.log("returned user", user.data);
-      history.push("/loggedIn");
+      dispatch(fetchUser());
+      history.push("/welcome");
     } catch (err) {
       if (err.response.data) {
         setLoginError(err.response.data.errors);

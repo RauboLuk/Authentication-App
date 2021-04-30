@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-// const User = require("../models/user");
+const User = require("../models/user");
 const config = require("../utils/config");
 
 const secret = config.SECRET;
@@ -8,17 +8,20 @@ const requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;
 
   if (token) {
-    jwt.verify(token, secret, (err, decodedToken) => {
+    jwt.verify(token, secret, async (err, decodedToken) => {
       if (err) {
         console.log(err.message);
-        res.redirect("http://localhost:3001/signIn", secret);
+        res.locals.userId = null;
+        res.redirect(403, "http://localhost:3001/signup");
       } else {
         console.log(decodedToken);
+        let user = await User.findById(decodedToken.id);
+        res.locals.userId = user.toJSON().id;
         next();
       }
     });
   } else {
-    res.redirect("http://localhost:3001/signIn", secret);
+    res.redirect(403, "http://localhost:3001/signup");
   }
 };
 

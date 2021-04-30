@@ -1,5 +1,8 @@
+const User = require("../models/user");
+
 module.exports.profile_get = async (req, res, next) => {
-  res.json({ user: "pofile_get" });
+  const user = await (await User.findById(res.locals.userId)).toJSON();
+  res.json(user);
 };
 
 module.exports.me_get = async (req, res, next) => {

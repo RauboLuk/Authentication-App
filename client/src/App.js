@@ -4,6 +4,7 @@ import {
   Switch,
   Route,
   Redirect,
+  Link,
 } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
@@ -26,16 +27,17 @@ function App() {
 
   console.log(!user);
 
-  const x = async () => {
+  const clearCookies = async () => {
     try {
       const p = await axios.get("http://localhost:3000/api/auth/logout");
+      console.log(p);
       window.location.replace(p.data);
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  const y = async () => {
+  const readcookies = async () => {
     try {
       const p = await axios.get("http://localhost:3000/read-cookies");
       console.log(p, "ol");
@@ -68,10 +70,10 @@ function App() {
     <Router>
       <Switch>
         <Route path="/loggedIn">
-          <div className="temp" onClick={x}>
-            loggedIn
+          <div className="temp" onClick={clearCookies}>
+            clearCookies
           </div>
-          <div className="temp" onClick={y}>
+          <div className="temp" onClick={readcookies}>
             readcookies
           </div>
         </Route>
@@ -81,7 +83,9 @@ function App() {
           </Backdrop>
         </Route>
         <Route path="/welcome">
-          <Header name={user.name}/>
+          <Header name={user.name} />
+          <Link to="/loggedIn">super hidden functionalities</Link> <br />
+          <Link to="/x">super hidden x</Link>
         </Route>
         <Route path="/">
           <Redirect to="/welcome" />
