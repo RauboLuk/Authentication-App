@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, selectUser } from "./features/user/userSlice";
 import SignUp from "./features/user/SignUp";
 import Header from "./features/user/Header";
+import Welcome from "./features/user/Welcome";
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -86,6 +87,7 @@ function App() {
           <Header name={user.name} />
           <Link to="/loggedIn">super hidden functionalities</Link> <br />
           <Link to="/x">super hidden x</Link>
+          <Welcome />
         </Route>
         <Route path="/">
           <Redirect to="/welcome" />

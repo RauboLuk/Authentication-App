@@ -1,0 +1,48 @@
+.profile {
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.profile__header {
+  text-align: center;
+}
+
+.profile__headerTitle {
+  font-size: 24px;
+  line-height: 33px;
+  font-weight: normal;
+}
+
+.profile__headerSubtitle {
+  margin-top: 7px;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.profile__info {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.profile__infoBox {
+  flex: 1;
+}
+
+.profile__infoTitle {
+  font-size: 24px;
+  line-height: 33px;
+  font-weight: normal;
+}
+
+.profile__infoSubtitle {
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--gray2);
+}
+
+.profile__infoButton {
+
+}
