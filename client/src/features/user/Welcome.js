@@ -9,7 +9,7 @@ const Home = () => {
           Basic info, like your name and photo
         </p>
       </header>
-      <section>
+      <section className="profile__data">
         <section className="profile__info">
           <div className="profile__infoBox">
             <h1 className="profile__infoTitle">Profile</h1>
@@ -19,27 +19,40 @@ const Home = () => {
           </div>
           <button className="profile__infoButton">Edit</button>
         </section>
-        <section>
-          <p>photo</p>
-          <img src="https://via.placeholder.com/150" alt="avatar" />
+        <section className="profile__section">
+          <p className="profile__fieldDesc">photo</p>
+          <img
+            className="profile__avatar"
+            src="https://via.placeholder.com/150"
+            alt="avatar"
+          />
         </section>
-        <section>
-          <p>name</p>
-          <p>user name</p>
+        <hr className="profile__line" />
+        <section className="profile__section">
+          <p className="profile__fieldDesc">name</p>
+          <p className="profile__text">user name</p>
         </section>
-        <section>
-          <p>bio</p>
-          <p>user bio</p>
+        <hr className="profile__line" />
+        <section className="profile__section">
+          <p className="profile__fieldDesc">bio</p>
+          <p className="profile__text">user bio</p>
         </section>
-        <section>
-          <p>email</p>
-          <p>user bio</p>
+        <hr className="profile__line" />
+        <section className="profile__section">
+          <p className="profile__fieldDesc">email</p>
+          <p className="profile__text">user bio</p>
         </section>
-        <section>
-          <p>password</p>
-          <p>************</p>
+        <hr className="profile__line" />
+        <section className="profile__section">
+          <p className="profile__fieldDesc">password</p>
+          <p className="profile__text">************</p>
         </section>
       </section>
+      {/* TODO extract footer */}
+      <div className="login__footer">
+        <p>& Raubo</p>
+        <p>devchallenges.io</p>
+      </div>
       <div>na tej stronie można poczuć się jak w domu</div>
     </div>
   );
