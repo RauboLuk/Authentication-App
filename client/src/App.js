@@ -17,6 +17,7 @@ import { fetchUser, selectUser } from "./features/user/userSlice";
 import SignUp from "./features/user/SignUp";
 import Header from "./features/user/Header";
 import Welcome from "./features/user/Welcome";
+import EditUser from "./features/user/EditUser";
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -87,7 +88,11 @@ function App() {
           <Header name={user.name} />
           <Link to="/loggedIn">super hidden functionalities</Link> <br />
           <Link to="/x">super hidden x</Link>
-          <Welcome />
+          <Welcome user={user} />
+        </Route>
+        <Route path="/user/edit">
+          <Header name={user.name} />
+          <EditUser />
         </Route>
         <Route path="/">
           <Redirect to="/welcome" />

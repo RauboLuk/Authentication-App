@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import "./Welcome.css";
 
-const Home = () => {
+const Home = ({ user }) => {
   return (
     <div className="profile">
       <header className="profile__header">
@@ -17,7 +18,7 @@ const Home = () => {
               Some info may be visible to other people
             </p>
           </div>
-          <button className="profile__infoButton">Edit</button>
+          <Link className="profile__infoButton" to="/user/edit">Edit</Link>
         </section>
         <section className="profile__section">
           <p className="profile__fieldDesc">photo</p>
@@ -30,17 +31,22 @@ const Home = () => {
         <hr className="profile__line" />
         <section className="profile__section">
           <p className="profile__fieldDesc">name</p>
-          <p className="profile__text">user name</p>
+          <p className="profile__text">{user.name || 'undefined'}</p>
         </section>
         <hr className="profile__line" />
         <section className="profile__section">
           <p className="profile__fieldDesc">bio</p>
-          <p className="profile__text">user bio</p>
+          <p className="profile__text">{user.bio || 'undefined'}</p>
+        </section>
+        <hr className="profile__line" />
+        <section className="profile__section">
+          <p className="profile__fieldDesc">phone</p>
+          <p className="profile__text">{user.phone || 'undefined'}</p>
         </section>
         <hr className="profile__line" />
         <section className="profile__section">
           <p className="profile__fieldDesc">email</p>
-          <p className="profile__text">user bio</p>
+          <p className="profile__text">{user.email || 'undefined'}</p>
         </section>
         <hr className="profile__line" />
         <section className="profile__section">

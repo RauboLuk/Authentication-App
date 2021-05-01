@@ -1,0 +1,47 @@
+.edit {
+  margin: 50px auto;
+  max-width: 400px;
+}
+
+.edit__back {
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 25px;
+  color: var(--blue2);
+}
+
+.edit__icon {
+  color: var(--blue2);
+  max-height: 14px;
+}
+
+.edit__info {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.edit__infoBox {
+  flex: 1;
+}
+
+.edit__infoTitle {
+  font-size: 24px;
+  line-height: 33px;
+  font-weight: normal;
+}
+
+.edit__infoSubtitle {
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--gray2);
+}
+
+.edit__section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  padding: 20px;
+}

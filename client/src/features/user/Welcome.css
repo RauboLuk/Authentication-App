@@ -52,16 +52,14 @@
 .profile__infoButton {
   height: 38px;
   width: 95px;
-
-  background: none;
-  border: 1px solid var(--gray2);
-  border-radius: 12px;
-
-  font-family: Noto Sans JP;
   font-size: 16px;
   line-height: 22px;
-  letter-spacing: -0.035em;
   color: var(--gray2);
+  border: 1px solid var(--gray2);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile__section {
