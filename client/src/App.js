@@ -92,7 +92,7 @@ function App() {
         </Route>
         <Route path="/user/edit">
           <Header name={user.name} />
-          <EditUser />
+          <EditUser user={user} />
         </Route>
         <Route path="/">
           <Redirect to="/welcome" />

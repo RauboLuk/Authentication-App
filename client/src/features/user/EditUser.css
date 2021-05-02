@@ -1,4 +1,5 @@
 .edit {
+  font-family: "Noto Sans JP";
   margin: 50px auto;
   max-width: 400px;
 }
@@ -38,10 +39,90 @@
   color: var(--gray2);
 }
 
-.edit__section {
+.edit__form {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.edit__avatarSection {
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
-  height: 80px;
-  padding: 20px;
+}
+
+.edit__avatar {
+  margin-right: 20px;
+  object-fit: cover;
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+}
+
+.edit__fieldDesc {
+  text-transform: uppercase;
+  font-size: 13px;
+  line-height: 18px;
+
+  color: var(--gray2);
+}
+
+.form__label {
+  margin-bottom: 3px;
+  display: block;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.035em;
+  color: var(--gray1);
+}
+
+.form__label::first-letter {
+  text-transform: capitalize;
+}
+
+.form__input {
+  padding: 0 18px;
+  height: 52px;
+  border: 1px solid var(--gray2);
+  border-radius: 12px;
+}
+
+.form__input:focus {
+  border: 1px solid var(--blue1);
+}
+
+.form__input::placeholder {
+  color: var(--gray3);
+}
+
+.form__textarea {
+  padding: 10px 18px;
+  width: 100%;
+  border: 1px solid var(--gray2);
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-family: "Noto Sans JP";
+  resize: none;
+  scrollbar-width: none;
+}
+
+.form__textarea:focus {
+  outline: none;
+  border: 1px solid var(--blue1);
+}
+
+.form__textarea::placeholder {
+  color: var(--gray3);
+}
+
+.form__submit {
+  height: 38px;
+  width: 82px;
+  background: var(--blue1);
+  border-radius: 8px;
+  color: white;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
