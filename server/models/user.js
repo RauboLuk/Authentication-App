@@ -3,15 +3,9 @@ const { isEmail } = require("validator");
 const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    minlength: 3,
-  },
+  name: String,
   bio: String,
-  phone: {
-    type: String,
-    minlength: 3,
-  },
+  phone: String,
   email: {
     type: String,
     required: [true, "Please enter an email"],
@@ -38,6 +32,15 @@ const userSchema = new mongoose.Schema({
 userSchema.pre("save", async function (next) {
   const saltRounds = 10;
   this.password = await bcrypt.hash(this.password, saltRounds);
+  next();
+});
+
+userSchema.pre("findOneAndUpdate", async function (next) {
+  if(this.getUpdate().password) {
+    const saltRounds = 10;
+    this.getUpdate().password = await bcrypt.hash(this.getUpdate().password, saltRounds);
+  };
+  delete this.createdAt;
   next();
 });
 
