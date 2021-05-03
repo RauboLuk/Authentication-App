@@ -35,15 +35,6 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.pre("findOneAndUpdate", async function (next) {
-  if(this.getUpdate().password) {
-    const saltRounds = 10;
-    this.getUpdate().password = await bcrypt.hash(this.getUpdate().password, saltRounds);
-  };
-  delete this.createdAt;
-  next();
-});
-
 userSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email });
   if (user) {

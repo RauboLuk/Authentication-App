@@ -1,27 +1,56 @@
 const User = require("../models/user");
 
+// TODO import handleError from utils...
+const handleErrors = (e) => {
+  console.log(e.message, e.code);
+  let errors = { email: "", password: "" };
+
+  if (e.message === "incorrect email" || e.message === "incorrect password") {
+    errors.email = "Incorrect email or password";
+  }
+
+  if (e.code == 11000) {
+    errors.email = "That email is already registered";
+  }
+
+  if (e.message?.includes("user validation failed")) {
+    Object.values(e.errors).forEach(({ properties }) => {
+      errors[properties.path] = properties.message;
+    });
+  }
+
+  return errors;
+};
+
 module.exports.profile_get = async (req, res, next) => {
-  const user = await (await User.findById(res.locals.userId)).toJSON();
-  res.json(user);
+  const user = await User.findById(res.locals.userId);
+  res.json(user.toJSON());
 };
 
 module.exports.profile_put = async (req, res, next) => {
-  const id = res.locals.userId;
-  const newData = req.body;
+  try {
+    const id = res.locals.userId;
+    const newData = req.body;
+    const user = await User.findById(id);
 
-  if (!newData?.password.length > 0) {
-    delete newData.password;
+    user.name = newData.name;
+    user.bio = newData.bio;
+    user.phone = newData.phone;
+    user.email = newData.email;
+    if (newData?.password.length > 5) {
+      user.password = newData.password;
+    }
+
+    await user.save();
+
+    console.log(user.toJSON());
+
+    res.json(user.toJSON());
+  } catch (error) {
+    const errors = handleErrors(error);
+    if (errors) res.status(400).json({ errors });
+    // next(error);
   }
-  console.log(!newData?.password.length > 0);
-
-  const editeduser = await User.findOneAndUpdate({ _id: id }, newData, {
-    useFindAndModify: false,
-    new: true,
-    runValidators: true,
-  });
-  console.log(editeduser);
-
-  res.json(editeduser.toJSON());
 };
 
 module.exports.me_get = async (req, res, next) => {
