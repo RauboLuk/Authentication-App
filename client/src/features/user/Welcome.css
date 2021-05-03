@@ -86,9 +86,13 @@
 }
 
 .profile__text {
+  max-width: 65%;
   font-size: 16px;
   line-height: 22px;
   color: var(--black1);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .profile__line {

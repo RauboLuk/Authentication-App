@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import "./EditUser.css";
+import { editUser } from "./userSlice";
 
 const Input = ({
   label,
@@ -34,9 +36,12 @@ const Input = ({
 
 const EditUser = ({ user }) => {
   const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+  let history = useHistory();
 
   const onSubmit = (data) => {
-    alert(JSON.stringify(data));
+    dispatch(editUser(data));
+    history.push("/welcome");
   };
 
   return (

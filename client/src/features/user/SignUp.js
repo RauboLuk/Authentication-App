@@ -46,6 +46,7 @@ const SignUp = () => {
         data
       );
       console.log("returned user", newUser.data);
+      // TODO user after signingup isn't in store
       history.push("/loggedIn");
     } catch (err) {
       if (err.response.data) {
