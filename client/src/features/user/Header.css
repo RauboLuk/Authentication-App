@@ -1,13 +1,15 @@
 .header {
   display: flex;
   justify-content: space-between;
-  margin: 0.5vw 2vw;
+  margin: 1vw 4vw;
 }
 
 .header__user {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px;
+  position: relative;
 }
 
 .header__imgBox {
@@ -23,4 +25,24 @@
 .header__avatar {
   max-width: 100%;
   max-height: 100%;
+}
+
+.header__dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0px;
+  width: 150px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid var(--gray4);
+  box-sizing: border-box;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+}
+
+.header__link {
+  display: flex;
+  align-items: center;
 }
