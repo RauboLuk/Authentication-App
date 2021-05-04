@@ -8,7 +8,14 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
+
+import { useDispatch } from "react-redux";
+import { signout } from "./userSlice";
+import { Link } from "react-router-dom";
+
+
 const Header = ({ name }) => {
+  const dispatch = useDispatch();
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleClick = () => {
@@ -18,6 +25,11 @@ const Header = ({ name }) => {
   const handleClickAway = () => {
     setShowDropdown(false);
   };
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(signout());
+  }
 
   return (
     <header className="header" onClick={handleClick}>
@@ -39,19 +51,19 @@ const Header = ({ name }) => {
           )}
           {showDropdown && (
             <nav className="header__dropdown" onBlur={handleClick}>
-              <a className="header__link header__link--active" href="/welcome">
+              <Link className="header__link header__link--active" to="/welcome">
                 <AccountCircleIcon className="header__icon" />
                 My Profile
-              </a>
-              <a className="header__link" href="/chat">
+              </Link>
+              <Link className="header__link" to="/chat">
                 <PeopleAltIcon className="header__icon" />
                 Group Chat
-              </a>
+              </Link>
               <hr className="header__line" />
-              <a className="header__link header__link--red" href="/signout">
+              <Link className="header__link header__link--red" to="/signout" onClick={handleLogout}>
                 <ExitToAppIcon className="header__icon" />
                 Logout
-              </a>
+              </Link>
             </nav>
           )}
         </section>

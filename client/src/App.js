@@ -18,6 +18,8 @@ import SignUp from "./features/user/SignUp";
 import Header from "./features/user/Header";
 import Welcome from "./features/user/Welcome";
 import EditUser from "./features/user/EditUser";
+import Signout from "./features/user/Signout";
+import userService from "./services/userService";
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -31,7 +33,7 @@ function App() {
 
   const clearCookies = async () => {
     try {
-      const p = await axios.get("http://localhost:3000/api/auth/logout");
+      const p = await userService.signout();
       console.log(p);
       window.location.replace(p.data);
     } catch (error) {
@@ -60,6 +62,10 @@ function App() {
           <div className="temp">
             <SignUp />
           </div>
+        </Route>
+        <Route path="/signout">
+          <Header name=""/>
+          <Signout />
         </Route>
         <Route path="/">
           <Redirect to="/signup" />
@@ -93,6 +99,10 @@ function App() {
         <Route path="/user/edit">
           <Header name={user.name || user.email.split('@')[0]} />
           <EditUser user={user} />
+        </Route>
+        <Route path="/signout">
+          <Header name=""/>
+          <Signout />
         </Route>
         <Route path="/">
           <Redirect to="/welcome" />

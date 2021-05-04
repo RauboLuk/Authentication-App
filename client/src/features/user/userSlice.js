@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userService from "../../services/userService";
+import authService from "../../services/authService";
 
 const initialState = {
   status: "idle",
   error: null,
+  user: null,
 };
 
 export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
@@ -15,6 +17,11 @@ export const editUser = createAsyncThunk("user/editUser", async (data) => {
   console.log(data);
   const response = await userService.update(data);
   return response.data;
+});
+
+export const signout = createAsyncThunk("user/signout", async () => {
+  await authService.signout();
+  return {};
 });
 
 const userSlice = createSlice({
@@ -31,6 +38,7 @@ const userSlice = createSlice({
     },
     [fetchUser.fulfilled]: (state, action) => {
       state.status = "succeeded";
+      state.error = null;
       state.user = action.payload;
     },
     [fetchUser.rejected]: (state, action) => {
@@ -42,11 +50,17 @@ const userSlice = createSlice({
     },
     [editUser.fulfilled]: (state, action) => {
       state.status = "succeeded";
+      state.error = null;
       state.user = action.payload;
     },
     [editUser.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
+    },
+    [signout.fulfilled]: (state, action) => {
+      state.status = "succeeded";
+      state.error = null;
+      state.user = null;
     },
   },
 });
