@@ -31,7 +31,7 @@
   position: absolute;
   top: 50px;
   right: 0px;
-  width: 150px;
+  width: 180px;
   padding: 10px 14px;
   display: flex;
   flex-direction: column;
@@ -43,6 +43,32 @@
 }
 
 .header__link {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -0.035em;
+
+  color: var(--gray1);
+
   display: flex;
   align-items: center;
+  gap: 10px;
+  padding: 10px 5px;
+}
+
+.header__link:hover {
+  background: var(--gray5);
+  border-radius: 8px;
+}
+
+.header__link--red {
+  color: var(--red);
+}
+
+.header__icon {
+  font-size: medium !important;
+  padding-top: 2px;
+}
+
+.header__line {
+  border-color: var(--gray4);
 }
