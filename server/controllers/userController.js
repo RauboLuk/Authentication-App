@@ -39,9 +39,10 @@ module.exports.profile_put = async (req, res, next) => {
     if (req.files) {
       const { avatar } = req.files;
       if (allowedMimes.includes(avatar.mimetype)) {
-        if (user.img.length > 0 && fs.accessSync("./uploads/" + user.id))
+        if (user.img.length > 0)
           fs.rmSync("./uploads/" + user.id, {
             recursive: true,
+            force: true,
           });
         const ImgPath =
           "/uploads/" +
@@ -51,17 +52,17 @@ module.exports.profile_put = async (req, res, next) => {
           "." +
           avatar.mimetype.split("/")[1];
         avatar.mv("." + ImgPath);
-        user.img = "http://localhost:3001" + ImgPath;
+        user.img = "http://localhost:3000" + ImgPath;
       } else {
         throw Error(
           "Invalid file type. Only jpg, png and gif image files are allowed."
         );
       }
     } else {
-      if (fs.accessSync("./uploads/" + user.id))
-        fs.rmSync("./uploads/" + user.id, {
-          recursive: true,
-        });
+      fs.rmSync("./uploads/" + user.id, {
+        recursive: true,
+        force: true,
+      });
       user.img = "";
     }
 

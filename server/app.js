@@ -10,6 +10,7 @@ const { requireAuth, checkUser } = require("./middleware/authMiddleware");
 const indexRouter = require("./controllers/index");
 const authRouter = require("./routes/authRoutes");
 const oauthRouter = require("./controllers/oauth");
+const avatarRouter = require("./routes/avatarRoutes");
 const userRouter = require("./routes/userRoutes");
 
 const app = express();
@@ -54,6 +55,7 @@ app.use(
 // app.get("*", checkUser);
 app.use("/api/auth", authRouter);
 app.use("/api/oauth", oauthRouter);
+app.use("/uploads", avatarRouter);
 app.use("/api/user", requireAuth, userRouter);
 
 app.get("/set-cookies", (req, res) => {
