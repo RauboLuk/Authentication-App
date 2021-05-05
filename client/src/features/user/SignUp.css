@@ -1,6 +1,7 @@
 .signUp {
   padding: 18px 22px 17px 16px;
   max-width: 393px;
+  flex: 1;
 }
 
 .signUp__box {
@@ -107,4 +108,24 @@
   line-height: 19px;
 
   color: var(--gray3);
+}
+
+@media (min-width: 768px) {
+  .signUp {
+    max-width: 473px;
+    padding: 0;
+  }
+
+  .signUp__box {
+    margin: 0;
+    padding: 43px 58px;
+    border: 1px solid var(--gray3);
+    box-sizing: border-box;
+    border-radius: 24px;
+  }
+
+  .signUp__footer {
+    margin: 12px auto;
+    max-width: 473px;
+  }
 }

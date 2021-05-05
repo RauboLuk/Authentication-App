@@ -39,8 +39,18 @@ const EditUser = ({ user }) => {
   const dispatch = useDispatch();
   let history = useHistory();
 
-  const onSubmit = (data) => {
-    dispatch(editUser(data));
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    if (data.avatar[0]) {
+      formData.append("avatar", data.avatar[0]);
+    }
+    const entries = Object.entries(data).filter(
+      (entry) => entry[0] !== "avatar"
+    );
+    entries.forEach((entry) => {
+      formData.append(entry[0], entry[1]);
+    });
+    dispatch(editUser(formData));
     history.push("/welcome");
   };
 
@@ -60,14 +70,22 @@ const EditUser = ({ user }) => {
           </div>
         </section>
         <form className="edit__form" onSubmit={handleSubmit(onSubmit)}>
-          <section className="edit__avatarSection">
-            <img
-              className="edit__avatar"
-              src="https://via.placeholder.com/150"
-              alt="avatar"
-            />
-            <p className="edit__fieldDesc">CHANGE PHOTO</p>
-          </section>
+          <label htmlFor="button">
+            <section className="edit__avatarSection">
+              <img
+                className="edit__avatar"
+                src="https://via.placeholder.com/150"
+                alt="avatar"
+              />
+              <p className="edit__fieldDesc">CHANGE PHOTO</p>
+            </section>
+          </label>
+          <input
+            id="button"
+            type="file"
+            accept="image/*"
+            {...register("avatar")}
+          />
           <Input
             label="name"
             register={register}

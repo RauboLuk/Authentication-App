@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const fs = require("fs");
 
 // TODO import handleError from utils...
 const handleErrors = (e) => {
@@ -32,6 +33,37 @@ module.exports.profile_put = async (req, res, next) => {
     const id = res.locals.userId;
     const newData = req.body;
     const user = await User.findById(id);
+
+    const allowedMimes = ["image/jpeg", "image/pjpeg", "image/png"];
+
+    if (req.files) {
+      const { avatar } = req.files;
+      if (allowedMimes.includes(avatar.mimetype)) {
+        if (user.img.length > 0 && fs.accessSync("./uploads/" + user.id))
+          fs.rmSync("./uploads/" + user.id, {
+            recursive: true,
+          });
+        const ImgPath =
+          "/uploads/" +
+          user.id +
+          "/" +
+          avatar.md5 +
+          "." +
+          avatar.mimetype.split("/")[1];
+        avatar.mv("." + ImgPath);
+        user.img = "http://localhost:3001" + ImgPath;
+      } else {
+        throw Error(
+          "Invalid file type. Only jpg, png and gif image files are allowed."
+        );
+      }
+    } else {
+      if (fs.accessSync("./uploads/" + user.id))
+        fs.rmSync("./uploads/" + user.id, {
+          recursive: true,
+        });
+      user.img = "";
+    }
 
     user.name = newData.name;
     user.bio = newData.bio;

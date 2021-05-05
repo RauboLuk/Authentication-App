@@ -63,10 +63,6 @@ function App() {
             <SignUp />
           </div>
         </Route>
-        <Route path="/signout">
-          <Header name=""/>
-          <Signout />
-        </Route>
         <Route path="/">
           <Redirect to="/signup" />
         </Route>

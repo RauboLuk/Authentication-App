@@ -3,6 +3,7 @@ const path = require("path");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+const fileUpload = require("express-fileupload");
 const config = require("./utils/config");
 const { requireAuth, checkUser } = require("./middleware/authMiddleware");
 
@@ -44,6 +45,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  fileUpload({
+    createParentPath: true,
+  })
+);
 
 // app.get("*", checkUser);
 app.use("/api/auth", authRouter);
