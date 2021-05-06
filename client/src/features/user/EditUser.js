@@ -7,22 +7,26 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import "./EditUser.css";
 import { editUser } from "./userSlice";
 
-const allowedFileTypes = ['image/jpg', 'image/jpeg', 'image/png']
+const allowedFileTypes = ["image/jpeg", "image/png"];
 
 const schema = yup.object().shape({
   avatar: yup
     .mixed()
     .notRequired()
-    .test("fileSize", "The file is too large", (value) => {
-      if (!value.length) return true
-      return value && value[0].size <= 2000000;
-    })
-    .test("type", "Supported file types: jpg png", (value) => {
-      if (!value.length) return true
+    .test("type", "Supported file types: .jpg .png", (value) => {
+      if (!value.length) return true;
       console.log(value[0].type);
       return value && allowedFileTypes.includes(value[0].type);
+    })
+    .test("fileSize", "The file is too large", (value) => {
+      if (!value.length) return true;
+      return value && value[0].size <= 2000000;
     }),
   email: yup.string().required().email(),
+  password: yup.string().matches(new RegExp("^[a-zA-Z0-9]{3,30}$"), {
+    message: "allowed length 3-30, allowed chars a-z A-Z 0-9",
+    excludeEmptyString: true,
+  }),
 });
 
 const Input = ({
@@ -58,10 +62,15 @@ const EditUser = ({ user }) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const watchAvatar = watch("avatar");
+  let imgUrl = user.img || "https://via.placeholder.com/150";
+  if (watchAvatar?.length > 0) imgUrl = URL.createObjectURL(watchAvatar[0]);
+
   const dispatch = useDispatch();
   let history = useHistory();
 
@@ -100,18 +109,14 @@ const EditUser = ({ user }) => {
         <form className="edit__form" onSubmit={handleSubmit(onSubmit)}>
           <label htmlFor="button">
             <section className="edit__avatarSection">
-              <img
-                className="edit__avatar"
-                src="https://via.placeholder.com/150"
-                alt="avatar"
-              />
+              <img className="edit__avatar" src={imgUrl} alt="avatar" />
               <p className="edit__fieldDesc">CHANGE PHOTO</p>
             </section>
           </label>
           <input
             id="button"
             type="file"
-            accept="image/*"
+            accept={allowedFileTypes.join(",")}
             {...register("avatar")}
           />
           <Input
