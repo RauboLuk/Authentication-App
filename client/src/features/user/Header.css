@@ -18,9 +18,8 @@
   width: 32px;
 }
 
-.header__imgBox {
-  height: 32px;
-  width: 32px;
+.header__username {
+  display: none;
 }
 
 .header__avatar {
@@ -74,4 +73,10 @@
 
 .header__line {
   border-color: var(--gray4);
+}
+
+@media (min-width: 768px) {
+  .header__username {
+    display: block;
+  }
 }

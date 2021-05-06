@@ -43,7 +43,7 @@ const Header = ({ name }) => {
               className="header__avatar"
             />
           </div>
-          <p>{name}</p>
+          <p className="header__username">{name}</p>
           {showDropdown ? (
             <ArrowDropUpIcon className="header__icon" />
           ) : (
