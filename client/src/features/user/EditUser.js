@@ -1,9 +1,29 @@
 import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import "./EditUser.css";
 import { editUser } from "./userSlice";
+
+const allowedFileTypes = ['image/jpg', 'image/jpeg', 'image/png']
+
+const schema = yup.object().shape({
+  avatar: yup
+    .mixed()
+    .notRequired()
+    .test("fileSize", "The file is too large", (value) => {
+      if (!value.length) return true
+      return value && value[0].size <= 2000000;
+    })
+    .test("type", "Supported file types: jpg png", (value) => {
+      if (!value.length) return true
+      console.log(value[0].type);
+      return value && allowedFileTypes.includes(value[0].type);
+    }),
+  email: yup.string().required().email(),
+});
 
 const Input = ({
   label,
@@ -35,7 +55,13 @@ const Input = ({
 );
 
 const EditUser = ({ user }) => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   const dispatch = useDispatch();
   let history = useHistory();
 
@@ -53,6 +79,8 @@ const EditUser = ({ user }) => {
     dispatch(editUser(formData));
     history.push("/welcome");
   };
+
+  if (errors) console.log(errors);
 
   return (
     <div className="edit">

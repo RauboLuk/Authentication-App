@@ -24,7 +24,7 @@ const Home = ({ user }) => {
           <p className="profile__fieldDesc">photo</p>
           <img
             className="profile__avatar"
-            src="https://via.placeholder.com/150"
+            src={user.img || "https://via.placeholder.com/150"}
             alt="avatar"
           />
         </section>
