@@ -72,6 +72,8 @@ module.exports.profile_put = async (req, res, next) => {
     user.email = newData.email;
     if (newData?.password.length > 5) {
       user.password = newData.password;
+    } else {
+      user._keepPassword = true;
     }
 
     await user.save();

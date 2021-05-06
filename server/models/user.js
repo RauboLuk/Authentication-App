@@ -27,8 +27,13 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre("save", async function (next) {
+  if (this._keepPassword) {
+    delete this._keepPassword;
+    next();
+  }
   const saltRounds = 10;
   this.password = await bcrypt.hash(this.password, saltRounds);
+  console.log(this.password);
   next();
 });
 
