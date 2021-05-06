@@ -39,7 +39,7 @@ module.exports.profile_put = async (req, res, next) => {
     if (req.files) {
       const { avatar } = req.files;
       if (allowedMimes.includes(avatar.mimetype)) {
-        if (user.img.length > 0)
+        if (user.img?.length > 0)
           fs.rmSync("./uploads/" + user.id, {
             recursive: true,
             force: true,
