@@ -22,7 +22,6 @@
 
 .profile__data {
   margin-top: 40px;
-  margin-bottom: 50px;
 }
 
 .profile__info {
@@ -114,7 +113,6 @@
   .profile__data {
     border: 1px solid var(--gray4);
     border-radius: 12px;
-    margin-bottom: 15px;
   }
 
   .profile__info {

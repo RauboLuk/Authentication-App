@@ -88,10 +88,6 @@ const SignUp = () => {
           </Link>
         </p>
       </div>
-      <div className="signUp__footer">
-        <p>& Raubo</p>
-        <p>devchallenges.io</p>
-      </div>
     </section>
   );
 };

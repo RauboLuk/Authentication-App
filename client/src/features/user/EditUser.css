@@ -1,6 +1,6 @@
 .edit {
   font-family: "Noto Sans JP";
-  margin: 50px auto;
+  margin: 50px auto 0;
   max-width: 400px;
 }
 
@@ -137,7 +137,6 @@
 
   .edit__data {
     margin-top: 24px;
-    margin-bottom: 15px;
     padding: 30px 47px 42px 47px;
     border: 1px solid var(--gray4);
     border-radius: 12px;

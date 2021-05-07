@@ -18,8 +18,8 @@ import SignUp from "./features/user/SignUp";
 import Header from "./features/user/Header";
 import Welcome from "./features/user/Welcome";
 import EditUser from "./features/user/EditUser";
-import Signout from "./features/user/Signout";
 import userService from "./services/userService";
+import Footer from "./app/Footer";
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -53,25 +53,32 @@ function App() {
   if (!user) {
     return (
       <Router>
-        <Route path="/signin">
-          <div className="temp">
-            <Login />
-          </div>
-        </Route>
-        <Route path="/signup">
-          <div className="temp">
-            <SignUp />
-          </div>
-        </Route>
-        <Route path="/">
-          <Redirect to="/signup" />
-        </Route>
+        <Switch>
+          <Route path="/signin">
+            <div className="temp">
+              <Login />
+            </div>
+          </Route>
+          <Route path="/signup">
+            <div className="temp">
+              <SignUp />
+            </div>
+          </Route>
+          <Route path="/">
+            <Redirect to="/signup" />
+          </Route>
+        </Switch>
+        <Footer auth />
       </Router>
     );
   }
 
   return (
     <Router>
+      <Header
+        name={user.name || user.email.split("@")[0] || "undefined"}
+        avatarUrl={user.img}
+      />
       <Switch>
         <Route path="/loggedIn">
           <div className="temp" onClick={clearCookies}>
@@ -81,29 +88,24 @@ function App() {
             readcookies
           </div>
         </Route>
-        <Route path="/oauth/github">
+        {/* <Route path="/oauth/github">
           <Backdrop open={true} style={{ zIndex: 1 }}>
             <CircularProgress color="inherit" />
           </Backdrop>
-        </Route>
+        </Route> */}
         <Route path="/welcome">
-          <Header name={user.name || user.email.split("@")[0] || "undefined"} avatarUrl={user.img} />
           <Link to="/loggedIn">super hidden functionalities</Link> <br />
           <Link to="/x">super hidden x</Link>
           <Welcome user={user} />
         </Route>
         <Route path="/user/edit">
-          <Header name={user.name || user.email.split("@")[0] || "undefined"} avatarUrl={user.img} />
           <EditUser user={user} />
-        </Route>
-        <Route path="/signout">
-          <Header name="" />
-          <Signout />
         </Route>
         <Route path="/">
           <Redirect to="/welcome" />
         </Route>
       </Switch>
+      <Footer />
     </Router>
   );
 }

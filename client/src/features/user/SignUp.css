@@ -98,18 +98,6 @@
   justify-content: space-evenly;
 }
 
-.signUp__footer {
-  margin: 5px auto;
-  max-width: 355px;
-  display: flex;
-  justify-content: space-between;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 19px;
-
-  color: var(--gray3);
-}
-
 @media (min-width: 768px) {
   .signUp {
     max-width: 473px;
@@ -122,10 +110,5 @@
     border: 1px solid var(--gray3);
     box-sizing: border-box;
     border-radius: 24px;
-  }
-
-  .signUp__footer {
-    margin: 12px auto;
-    max-width: 473px;
   }
 }

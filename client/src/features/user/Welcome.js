@@ -18,7 +18,9 @@ const Home = ({ user }) => {
               Some info may be visible to other people
             </p>
           </div>
-          <Link className="profile__infoButton" to="/user/edit">Edit</Link>
+          <Link className="profile__infoButton" to="/user/edit">
+            Edit
+          </Link>
         </section>
         <hr className="profile__line profile__line--mbHidden" />
         <section className="profile__section profile__section--px10">
@@ -32,22 +34,22 @@ const Home = ({ user }) => {
         <hr className="profile__line" />
         <section className="profile__section">
           <p className="profile__fieldDesc">name</p>
-          <p className="profile__text">{user.name || 'undefined'}</p>
+          <p className="profile__text">{user.name || "undefined"}</p>
         </section>
         <hr className="profile__line" />
         <section className="profile__section">
           <p className="profile__fieldDesc">bio</p>
-          <p className="profile__text">{user.bio || 'undefined'}</p>
+          <p className="profile__text">{user.bio || "undefined"}</p>
         </section>
         <hr className="profile__line" />
         <section className="profile__section">
           <p className="profile__fieldDesc">phone</p>
-          <p className="profile__text">{user.phone || 'undefined'}</p>
+          <p className="profile__text">{user.phone || "undefined"}</p>
         </section>
         <hr className="profile__line" />
         <section className="profile__section">
           <p className="profile__fieldDesc">email</p>
-          <p className="profile__text">{user.email || 'undefined'}</p>
+          <p className="profile__text">{user.email || "undefined"}</p>
         </section>
         <hr className="profile__line" />
         <section className="profile__section">
@@ -55,12 +57,6 @@ const Home = ({ user }) => {
           <p className="profile__text">************</p>
         </section>
       </section>
-      {/* TODO extract footer */}
-      <div className="login__footer">
-        <p>& Raubo</p>
-        <p>devchallenges.io</p>
-      </div>
-      <div>na tej stronie można poczuć się jak w domu</div>
     </div>
   );
 };

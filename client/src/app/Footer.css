@@ -1,0 +1,24 @@
+.footer {
+  margin: 50px auto 5px;
+  max-width: 355px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 19px;
+
+  color: var(--gray3);
+}
+
+@media (min-width: 768px) {
+  .footer {
+    margin: 12px auto;
+    width: 70vw;
+    max-width: 850px;
+  }
+
+  .footer--auth {
+    margin: 0 auto;
+    max-width: 473px;
+  }
+}
