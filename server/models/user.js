@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "Please enter a password"],
-    minlength: [5, "Minimum password length is 6 characters"],
+    minlength: [5, "Minimum password length is 5 characters"],
   },
   img: String,
   createdAt: {
@@ -33,7 +33,6 @@ userSchema.pre("save", async function (next) {
   }
   const saltRounds = 10;
   this.password = await bcrypt.hash(this.password, saltRounds);
-  console.log(this.password);
   next();
 });
 

@@ -58,7 +58,7 @@ module.exports.profile_put = async (req, res, next) => {
           "Invalid file type. Only jpg, png and gif image files are allowed."
         );
       }
-    } else {
+    } else if (newData.removeImg) {
       fs.rmSync("./uploads/" + user.id, {
         recursive: true,
         force: true,
@@ -70,7 +70,7 @@ module.exports.profile_put = async (req, res, next) => {
     user.bio = newData.bio;
     user.phone = newData.phone;
     user.email = newData.email;
-    if (newData?.password.length > 5) {
+    if (newData?.password.length >= 5) {
       user.password = newData.password;
     } else {
       user._keepPassword = true;
