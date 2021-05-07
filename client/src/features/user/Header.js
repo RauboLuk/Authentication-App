@@ -14,7 +14,7 @@ import { signout } from "./userSlice";
 import { Link } from "react-router-dom";
 
 
-const Header = ({ name }) => {
+const Header = ({ name, avatarUrl }) => {
   const dispatch = useDispatch();
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -36,13 +36,11 @@ const Header = ({ name }) => {
       <img src={logo} className="header__appLogo" alt="logo" />
       <ClickAwayListener onClickAway={handleClickAway}>
         <section className="header__user">
-          <div className="header__imgBox">
             <img
-              src="https://via.placeholder.com/150"
+              src={avatarUrl || "https://via.placeholder.com/150"}
               alt="user avatar"
               className="header__avatar"
             />
-          </div>
           <p className="header__username">{name}</p>
           {showDropdown ? (
             <ArrowDropUpIcon className="header__icon" />

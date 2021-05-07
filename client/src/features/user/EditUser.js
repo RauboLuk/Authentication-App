@@ -23,8 +23,8 @@ const schema = yup.object().shape({
       return value && value[0].size <= 2000000;
     }),
   email: yup.string().required().email(),
-  password: yup.string().matches(new RegExp("^[a-zA-Z0-9]{3,30}$"), {
-    message: "allowed length 3-30, allowed chars a-z A-Z 0-9",
+  password: yup.string().matches(new RegExp("^[a-zA-Z0-9]{5,30}$"), {
+    message: "allowed length 5-30, allowed chars a-z A-Z 0-9",
     excludeEmptyString: true,
   }),
 });
@@ -117,6 +117,7 @@ const EditUser = ({ user }) => {
             id="button"
             type="file"
             accept={allowedFileTypes.join(",")}
+            hidden
             {...register("avatar")}
           />
           <Input

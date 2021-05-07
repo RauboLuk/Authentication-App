@@ -87,13 +87,13 @@ function App() {
           </Backdrop>
         </Route>
         <Route path="/welcome">
-          <Header name={user.name || user.email.split("@")[0] || "undefined"} />
+          <Header name={user.name || user.email.split("@")[0] || "undefined"} avatarUrl={user.img} />
           <Link to="/loggedIn">super hidden functionalities</Link> <br />
           <Link to="/x">super hidden x</Link>
           <Welcome user={user} />
         </Route>
         <Route path="/user/edit">
-          <Header name={user.name || user.email.split("@")[0] || "undefined"} />
+          <Header name={user.name || user.email.split("@")[0] || "undefined"} avatarUrl={user.img} />
           <EditUser user={user} />
         </Route>
         <Route path="/signout">

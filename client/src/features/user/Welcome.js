@@ -20,7 +20,8 @@ const Home = ({ user }) => {
           </div>
           <Link className="profile__infoButton" to="/user/edit">Edit</Link>
         </section>
-        <section className="profile__section">
+        <hr className="profile__line profile__line--mbHidden" />
+        <section className="profile__section profile__section--px10">
           <p className="profile__fieldDesc">photo</p>
           <img
             className="profile__avatar"

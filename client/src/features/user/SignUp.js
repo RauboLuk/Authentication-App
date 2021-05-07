@@ -27,8 +27,8 @@ const SignUp = () => {
       .string()
       .required()
       .matches(
-        new RegExp("^[a-zA-Z0-9]{3,30}$"),
-        "allowed length 3-30, allowed chars a-z A-Z 0-9"
+        new RegExp("^[a-zA-Z0-9]{5,30}$"),
+        "allowed length 5-30, allowed chars a-z A-Z 0-9"
       ),
   });
 

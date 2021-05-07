@@ -40,6 +40,7 @@
 }
 
 .edit__form {
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -126,4 +127,33 @@
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+@media (min-width: 768px) {
+  .edit {
+    width: 70vw;
+    max-width: 850px;
+  }
+
+  .edit__data {
+    margin-top: 24px;
+    margin-bottom: 15px;
+    padding: 30px 47px 42px 47px;
+    border: 1px solid var(--gray4);
+    border-radius: 12px;
+  }
+
+  .edit__info {
+    padding: 0;
+  }
+
+  .edit__form {
+    margin-top: 25px;
+    padding: 0;
+    max-width: 420px;
+  }
+
+  .edit__avatar {
+    margin-right: 25px;
+  }
 }
