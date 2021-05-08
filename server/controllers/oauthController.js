@@ -1,14 +1,23 @@
-const express = require("express");
-const router = express.Router();
 const axios = require("axios");
+const jwt = require("jsonwebtoken");
+
+const User = require("../models/user");
 const config = require("../utils/config");
 
+const secret = config.SECRET;
 const clientID = config.CLIENT_ID;
 const clientSecret = config.CLIENT_SECRET;
 
 class LoginError extends Error {}
 
-router.get("/github", async (req, res, next) => {
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+  return jwt.sign({ id }, secret, {
+    expiresIn: maxAge,
+  });
+};
+
+module.exports.github = async (req, res, next) => {
   const requestToken = req.query.code;
 
   console.log(req.query);
@@ -35,30 +44,32 @@ router.get("/github", async (req, res, next) => {
         Authorization: `token ${accessToken}`,
       },
     });
+    console.log(githubUserData.data.id);
 
-    res.cookie("username", "Flavio", {
+    await User.create(
+      [
+        {
+          oauth: `gh_${githubUserData.data.id}`,
+        },
+      ],
+      {
+        validateBeforeSave: false,
+      }
+    );
+
+    const createdUser = await User.findOne({ oauth: `gh_${githubUserData.data.id}` });
+
+    console.log(createdUser.id);
+
+    const token = createToken(createdUser.id);
+
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: maxAge * 1000,
       domain: "localhost",
-      path: "/",
     });
 
-    res
-      .cookie("token", "testid", {
-        maxAge: 1000 * 60, // * 24 * 7,
-        // httpOnly: true,
-        secure: true,
-        sameSite: true,
-        path: "/",
-        domain: "http://localhost:3001/",
-      })
-      .redirect(`http://localhost:3001/welcome?access_token=${accessToken}`);
-
-    // if( userExist(githubUserData.data.id, 'github') ) {
-
-    // } else {
-
-    // }
-    console.log(githubUserData.data.id);
-    // res.redirect(`http://localhost:3001/welcome?access_token=${accessToken}`);
+    res.status(201).json({ user: createdUser.id });
   } catch (error) {
     console.log(error.message);
     if (error instanceof LoginError) {
@@ -67,6 +78,4 @@ router.get("/github", async (req, res, next) => {
       throw error;
     }
   }
-});
-
-module.exports = router;
+};

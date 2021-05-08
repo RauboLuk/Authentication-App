@@ -24,9 +24,13 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  oauth: String,
 });
 
 userSchema.pre("save", async function (next) {
+  if (this.oauth) {
+    next();
+  }
   if (this._keepPassword) {
     delete this._keepPassword;
     next();

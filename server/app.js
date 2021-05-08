@@ -9,7 +9,7 @@ const { requireAuth, checkUser } = require("./middleware/authMiddleware");
 
 const indexRouter = require("./controllers/index");
 const authRouter = require("./routes/authRoutes");
-const oauthRouter = require("./controllers/oauth");
+const oauthRouter = require("./routes/oauthRoutes");
 const avatarRouter = require("./routes/avatarRoutes");
 const userRouter = require("./routes/userRoutes");
 
