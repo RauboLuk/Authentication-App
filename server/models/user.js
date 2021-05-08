@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 const { isEmail } = require("validator");
 const bcrypt = require("bcrypt");
 
+// required: [true, "Please enter an email"],
 const userSchema = new mongoose.Schema({
   name: String,
   bio: String,
   phone: String,
   email: {
     type: String,
-    required: [true, "Please enter an email"],
     unique: true,
     minlength: 3,
     lowercase: true,

@@ -76,7 +76,7 @@ function App() {
   return (
     <Router>
       <Header
-        name={user.name || user.email.split("@")[0] || "undefined"}
+        name={user.name || user.email?.split("@")[0] || "undefined"}
         avatarUrl={user.img}
       />
       <Switch>

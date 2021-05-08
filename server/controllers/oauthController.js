@@ -46,22 +46,27 @@ module.exports.github = async (req, res, next) => {
     });
     console.log(githubUserData.data.id);
 
-    await User.create(
-      [
+    let user = await User.findOne({
+      oauth: `gh_${githubUserData.data.id}`,
+    });
+    if (!user) {
+      await User.create(
+        [
+          {
+            oauth: `gh_${githubUserData.data.id}`,
+          },
+        ],
         {
-          oauth: `gh_${githubUserData.data.id}`,
-        },
-      ],
-      {
-        validateBeforeSave: false,
-      }
-    );
+          validateBeforeSave: false,
+        }
+      );
 
-    const createdUser = await User.findOne({ oauth: `gh_${githubUserData.data.id}` });
+      user = await User.findOne({
+        oauth: `gh_${githubUserData.data.id}`,
+      });
+    }
 
-    console.log(createdUser.id);
-
-    const token = createToken(createdUser.id);
+    const token = createToken(user.id);
 
     res.cookie("jwt", token, {
       httpOnly: true,
@@ -69,7 +74,7 @@ module.exports.github = async (req, res, next) => {
       domain: "localhost",
     });
 
-    res.status(201).json({ user: createdUser.id });
+    res.redirect(`http://localhost:3001/mail`);
   } catch (error) {
     console.log(error.message);
     if (error instanceof LoginError) {

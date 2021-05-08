@@ -16,9 +16,11 @@ const requireAuth = (req, res, next) => {
       } else {
         console.log(decodedToken);
         let user = await User.findById(decodedToken.id);
-        if(!user) res.redirect(403, "http://localhost:3001/signup");
-        res.locals.userId = (await user.toJSON()).id;
-        next();
+        if (!user) res.redirect(403, "http://localhost:3001/signup");
+        else {
+          res.locals.userId = (await user.toJSON()).id;
+          next();
+        }
       }
     });
   } else {
