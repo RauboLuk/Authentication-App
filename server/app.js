@@ -4,10 +4,11 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
-const config = require("./utils/config");
-const { requireAuth, checkUser } = require("./middleware/authMiddleware");
 
-const indexRouter = require("./controllers/index");
+const config = require("./utils/config");
+const { requireAuth } = require("./middleware/authMiddleware");
+const errorMiddleware = require("./middleware/errorMiddleware");
+
 const authRouter = require("./routes/authRoutes");
 const oauthRouter = require("./routes/oauthRoutes");
 const avatarRouter = require("./routes/avatarRoutes");
@@ -57,6 +58,9 @@ app.use("/api/auth", authRouter);
 app.use("/api/oauth", oauthRouter);
 app.use("/uploads", avatarRouter);
 app.use("/api/user", requireAuth, userRouter);
+
+app.use(errorMiddleware.unknownEndpoint);
+app.use(errorMiddleware.errorHandler);
 
 app.get("/set-cookies", (req, res) => {
   // res.setHeader("Set-Cookie", "newUser=true");
