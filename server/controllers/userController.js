@@ -36,6 +36,12 @@ module.exports.profile_put = async (req, res, next) => {
 
     const allowedMimes = ["image/jpeg", "image/pjpeg", "image/png"];
 
+    // TODO email if no oauth
+    if (newData?.email.length < 3 && !user.oauth)
+      throw Error("Email validation failed");
+    if (newData?.email.length < 5 && !user.oauth)
+      throw Error("Password validation failed");
+
     if (req.files) {
       const { avatar } = req.files;
       if (allowedMimes.includes(avatar.mimetype)) {
@@ -69,7 +75,7 @@ module.exports.profile_put = async (req, res, next) => {
     user.name = newData.name;
     user.bio = newData.bio;
     user.phone = newData.phone;
-    user.email = newData.email;
+    if (!user.oauth) user.email = newData.email;
     if (newData?.password.length >= 5) {
       user.password = newData.password;
     } else {

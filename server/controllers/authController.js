@@ -38,6 +38,8 @@ module.exports.signup_post = async (req, res, next) => {
   try {
     // TODO how to add it to validation errors?
     if (!email) throw Error("Please enter an email");
+    if (!password) throw Error("Please enter a password");
+    
     const createdUser = await User.create({ email, password });
     const token = createToken(createdUser.id);
 

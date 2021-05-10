@@ -53,6 +53,7 @@ module.exports.github = async (req, res, next) => {
       await User.create(
         [
           {
+            name: githubUserData.data.login,
             oauth: `gh_${githubUserData.data.id}`,
           },
         ],
@@ -60,7 +61,7 @@ module.exports.github = async (req, res, next) => {
           validateBeforeSave: false,
         }
       );
-
+      
       user = await User.findOne({
         oauth: `gh_${githubUserData.data.id}`,
       });
