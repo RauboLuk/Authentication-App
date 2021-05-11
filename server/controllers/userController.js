@@ -58,7 +58,7 @@ module.exports.profile_put = async (req, res, next) => {
           "." +
           avatar.mimetype.split("/")[1];
         avatar.mv("." + ImgPath);
-        user.img = "http://localhost:3000" + ImgPath;
+        user.img = "http://localhost:3000/api" + ImgPath;
       } else {
         throw Error(
           "Invalid file type. Only jpg, png and gif image files are allowed."

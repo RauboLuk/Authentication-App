@@ -11,7 +11,7 @@ const errorMiddleware = require("./middleware/errorMiddleware");
 
 const authRouter = require("./routes/authRoutes");
 const oauthRouter = require("./routes/oauthRoutes");
-const avatarRouter = require("./routes/avatarRoutes");
+const uploadsRouter = require("./routes/uploadsRoutes");
 const userRouter = require("./routes/userRoutes");
 
 const app = express();
@@ -56,7 +56,7 @@ app.use(
 // app.get("*", checkUser);
 app.use("/api/auth", authRouter);
 app.use("/api/oauth", oauthRouter);
-app.use("/uploads", avatarRouter);
+app.use("/api/uploads", uploadsRouter);
 app.use("/api/user", requireAuth, userRouter);
 
 app.use(errorMiddleware.unknownEndpoint);

@@ -35,6 +35,8 @@ const errorHandler = (error, request, response, next) => {
   if (error instanceof OauthLoginError)
     return response.redirect("http://localhost:3001/signup");
 
+  if (error.code === "ENOENT") return response.sendStatus(404);
+
   next(error);
 };
 
