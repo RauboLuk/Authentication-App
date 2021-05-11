@@ -1,31 +1,17 @@
-const User = require("../models/user");
 const fs = require("fs");
 
-// TODO import handleError from utils...
-const handleErrors = (e) => {
-  console.log(e.message, e.code);
-  let errors = { email: "", password: "" };
-
-  if (e.message === "incorrect email" || e.message === "incorrect password") {
-    errors.email = "Incorrect email or password";
-  }
-
-  if (e.code == 11000) {
-    errors.email = "That email is already registered";
-  }
-
-  if (e.message?.includes("user validation failed")) {
-    Object.values(e.errors).forEach(({ properties }) => {
-      errors[properties.path] = properties.message;
-    });
-  }
-
-  return errors;
-};
+const User = require("../models/user");
+const avatarService = require("../services/avatarService");
+const { DBNotFoundError, ValidationError } = require("../utils/errors");
 
 module.exports.profile_get = async (req, res, next) => {
-  const user = await User.findById(res.locals.userId);
-  res.json(user.toJSON());
+  try {
+    const user = await User.findById(res.locals.userId);
+    if (!user) throw new DBNotFoundError("User doesn't exist");
+    res.json(user.toJSON());
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports.profile_put = async (req, res, next) => {
@@ -36,20 +22,22 @@ module.exports.profile_put = async (req, res, next) => {
 
     const allowedMimes = ["image/jpeg", "image/pjpeg", "image/png"];
 
-    // TODO email if no oauth
-    if (newData?.email.length < 3 && !user.oauth)
-      throw Error("Email validation failed");
-    if (newData?.email.length < 5 && !user.oauth)
-      throw Error("Password validation failed");
+    user.name = newData.name;
+    user.bio = newData.bio;
+    user.phone = newData.phone;
+    user.email = newData.email;
+    if (!user.oauth) {
+      user.password = newData.password;
+    } else {
+      user._keepPassword = true;
+    }
+
+    await user.validate();
 
     if (req.files) {
       const { avatar } = req.files;
       if (allowedMimes.includes(avatar.mimetype)) {
-        if (user.img?.length > 0)
-          fs.rmSync("./uploads/" + user.id, {
-            recursive: true,
-            force: true,
-          });
+        if (user.img?.length > 0) avatarService.removeImgs(user.id);
         const ImgPath =
           "/uploads/" +
           user.id +
@@ -60,40 +48,18 @@ module.exports.profile_put = async (req, res, next) => {
         avatar.mv("." + ImgPath);
         user.img = "http://localhost:3000/api" + ImgPath;
       } else {
-        throw Error(
+        throw new ValidationError(
           "Invalid file type. Only jpg, png and gif image files are allowed."
         );
       }
     } else if (newData.removeImg) {
-      fs.rmSync("./uploads/" + user.id, {
-        recursive: true,
-        force: true,
-      });
+      avatarService.removeImgs(user.id);
       user.img = "";
     }
 
-    user.name = newData.name;
-    user.bio = newData.bio;
-    user.phone = newData.phone;
-    if (!user.oauth) user.email = newData.email;
-    if (newData?.password.length >= 5) {
-      user.password = newData.password;
-    } else {
-      user._keepPassword = true;
-    }
-
     await user.save();
-
-    console.log(user.toJSON());
-
     res.json(user.toJSON());
   } catch (error) {
-    const errors = handleErrors(error);
-    if (errors) res.status(400).json({ errors });
-    // next(error);
+    next(error);
   }
-};
-
-module.exports.me_get = async (req, res, next) => {
-  res.json({ user: "me_get" });
 };

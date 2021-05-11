@@ -30,7 +30,9 @@ const errorHandler = (error, request, response, next) => {
   }
 
   if (error instanceof DBNotFoundError)
-    return response.redirect(404, "http://localhost:3001/signup");
+    return response.status(404).json({
+      error: error.message
+    });
 
   if (error instanceof OauthLoginError)
     return response.redirect("http://localhost:3001/signup");

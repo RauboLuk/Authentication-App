@@ -14,23 +14,10 @@ const oauthRouter = require("./routes/oauthRoutes");
 const uploadsRouter = require("./routes/uploadsRoutes");
 const userRouter = require("./routes/userRoutes");
 
-const app = express();
-
 const port = config.PORT || 3000;
 const mongoUrl = config.MONGODB_URI;
 
-mongoose
-  .connect(mongoUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`Authentication app listening at http://localhost:${port}`);
-    });
-  })
-  .catch((e) => console.log(e.message));
+const app = express();
 
 if (process.env.NODE_ENV.indexOf("dev") > -1) {
   const cors = require("cors");
@@ -53,7 +40,6 @@ app.use(
   })
 );
 
-// app.get("*", checkUser);
 app.use("/api/auth", authRouter);
 app.use("/api/oauth", oauthRouter);
 app.use("/api/uploads", uploadsRouter);
@@ -62,24 +48,15 @@ app.use("/api/user", requireAuth, userRouter);
 app.use(errorMiddleware.unknownEndpoint);
 app.use(errorMiddleware.errorHandler);
 
-app.get("/set-cookies", (req, res) => {
-  // res.setHeader("Set-Cookie", "newUser=true");
-
-  res.cookie("newUser", false);
-  res.cookie("isEmployee", false, {
-    maxAge: 1000 * 60 * 60,
-    secure: true,
-    httpOnly: true,
-    sameSite: "none",
-  });
-
-  res.send("you hot!");
-});
-
-app.get("/read-cookies", (req, res) => {
-  console.log(req.config);
-  const cookies = req.cookies;
-  console.log("c", cookies);
-
-  res.json(cookies);
-});
+mongoose
+  .connect(mongoUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Authentication app listening at http://localhost:${port}`);
+    });
+  })
+  .catch((e) => console.log(e.message));

@@ -1,17 +1,7 @@
 const User = require("../models/user");
-const jwt = require("jsonwebtoken");
 
-const config = require("../utils/config");
 const { ValidationError } = require("../utils/errors");
-
-const secret = config.SECRET;
-
-const maxAge = 3 * 24 * 60 * 60;
-const createToken = (id) => {
-  return jwt.sign({ id }, secret, {
-    expiresIn: maxAge,
-  });
-};
+const auth = require("../utils/auth");
 
 module.exports.signup_post = async (req, res, next) => {
   const { email, password } = req.body;
@@ -21,15 +11,11 @@ module.exports.signup_post = async (req, res, next) => {
     if (!password) throw new ValidationError("Please enter a password");
 
     const createdUser = await User.create({ email, password });
-    const token = createToken(createdUser.id);
 
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      maxAge: maxAge * 1000,
-      domain: "localhost",
-    });
+    const token = auth.createToken(createdUser.id);
+    auth.addJwtCookie(res, token);
 
-    res.status(201).json({ user: createdUser.id });
+    res.status(201);
   } catch (error) {
     next(error);
   }
@@ -43,15 +29,11 @@ module.exports.login_post = async (req, res, next) => {
     if (!password) throw new ValidationError("Please enter a password");
 
     const user = await User.login(email, password);
-    const token = createToken(user.id);
 
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      maxAge: maxAge * 1000,
-      domain: "localhost",
-    });
+    const token = auth.createToken(user.id);
+    auth.addJwtCookie(res, token);
 
-    res.status(200).json({ user: user.id });
+    res.status(200);
   } catch (error) {
     next(error);
   }

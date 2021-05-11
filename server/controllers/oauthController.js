@@ -1,25 +1,14 @@
-const jwt = require("jsonwebtoken");
-
 const User = require("../models/user");
-const config = require("../utils/config");
-const { OauthLoginError } = require("../utils/errors");
 const ghService = require("../services/ghService");
-
-const secret = config.SECRET;
-
-const maxAge = 3 * 24 * 60 * 60;
-const createToken = (id) => {
-  return jwt.sign({ id }, secret, {
-    expiresIn: maxAge,
-  });
-};
+const { OauthLoginError } = require("../utils/errors");
+const auth = require("../utils/auth");
 
 module.exports.github = async (req, res, next) => {
-  const { code: requestToken} = req.query;
-  
+  const { code: requestToken } = req.query;
+
   try {
     if (req.query.error) throw new OauthLoginError(req.query.error);
-    
+
     const client = await ghService.postRequestToken(requestToken);
     const accessToken = client.data.access_token;
 
@@ -36,13 +25,8 @@ module.exports.github = async (req, res, next) => {
       });
     }
 
-    const token = createToken(user.id);
-
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      maxAge: maxAge * 1000,
-      domain: "localhost",
-    });
+    const token = auth.createToken(user.id);
+    auth.addJwtCookie(res, token);
 
     res.redirect(`http://localhost:3001/welcome`);
   } catch (error) {
