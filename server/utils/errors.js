@@ -12,7 +12,15 @@ class ValidationError extends Error {
   }
 }
 
+class OauthLoginError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "OauthLoginError";
+  }
+}
+
 module.exports = {
   DBNotFoundError,
   ValidationError,
+  OauthLoginError,
 };

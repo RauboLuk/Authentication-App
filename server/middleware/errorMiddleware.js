@@ -1,4 +1,4 @@
-const { DBNotFoundError } = require("../utils/errors");
+const { DBNotFoundError, OauthLoginError } = require("../utils/errors");
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
@@ -10,7 +10,7 @@ const errorHandler = (error, request, response, next) => {
   console.log("code", error.code);
   if (error.name === "SyntaxError")
     return response.status(400).send({ error: error.message });
-    
+
   if (error.name === "ValidationError")
     return response.status(400).send({ error: error.message });
 
@@ -24,8 +24,16 @@ const errorHandler = (error, request, response, next) => {
       error: "invalid token",
     });
 
+  if (error.name === "TypeError") {
+    console.log(error);
+    return response.redirect("http://localhost:3001/signup");
+  }
+
   if (error instanceof DBNotFoundError)
-    response.redirect(404, "http://localhost:3001/signup");
+    return response.redirect(404, "http://localhost:3001/signup");
+
+  if (error instanceof OauthLoginError)
+    return response.redirect("http://localhost:3001/signup");
 
   next(error);
 };
