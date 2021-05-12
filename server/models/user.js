@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const { isEmail } = require("validator");
 const bcrypt = require("bcrypt");
 
+const { DBNotFoundError } = require("../utils/errors.js");
+
 const userSchema = new mongoose.Schema({
   name: String,
   bio: String,
@@ -46,8 +48,8 @@ userSchema.statics.login = async function (email, password) {
     const auth = await bcrypt.compare(password, user.password);
     if (auth) {
       return user;
-    } else throw new Error("incorrect password");
-  } else throw new Error("incorrect email");
+    } else throw new DBNotFoundError("incorrect email or password");
+  } else throw new DBNotFoundError("incorrect email or password");
 };
 
 userSchema.set("toJSON", {
