@@ -1,5 +1,3 @@
-const fs = require("fs");
-
 const User = require("../models/user");
 const avatarService = require("../services/avatarService");
 const { DBNotFoundError, ValidationError } = require("../utils/errors");
@@ -26,7 +24,7 @@ module.exports.profile_put = async (req, res, next) => {
     user.bio = newData.bio;
     user.phone = newData.phone;
     user.email = newData.email;
-    if (!user.oauth) {
+    if (!user.oauth && newData.password.length > 0) {
       user.password = newData.password;
     } else {
       user._keepPassword = true;
