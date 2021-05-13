@@ -5,19 +5,18 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import axios from "axios";
 import "./App.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, selectUser } from "./features/user/userSlice";
 import ErrorSnackbar from "./features/user/ErrorSnackbar";
+import AuthContainer from "./features/user/AuthContainer";
 import Login from "./features/user/Login";
 import SignUp from "./features/user/SignUp";
 import Header from "./features/user/Header";
 import Welcome from "./features/user/Welcome";
 import EditUser from "./features/user/EditUser";
 import Footer from "./app/Footer";
-axios.defaults.withCredentials = true;
 
 function App() {
   const user = useSelector(selectUser);
@@ -31,21 +30,19 @@ function App() {
     return (
       <Router>
         <ErrorSnackbar />
-        <Switch>
-          <Route path="/signin">
-            <div className="temp">
+        <AuthContainer>
+          <Switch>
+            <Route path="/signin">
               <Login />
-            </div>
-          </Route>
-          <Route path="/signup">
-            <div className="temp">
+            </Route>
+            <Route path="/signup">
               <SignUp />
-            </div>
-          </Route>
-          <Route path="/">
-            <Redirect to="/signup" />
-          </Route>
-        </Switch>
+            </Route>
+            <Route path="/">
+              <Redirect to="/signup" />
+            </Route>
+          </Switch>
+        </AuthContainer>
         <Footer auth />
       </Router>
     );

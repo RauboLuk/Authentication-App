@@ -5,7 +5,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import "./EditUser.css";
+
 import { editUser } from "./userSlice";
+import EditInput from "./EditInput";
 
 const allowedFileTypes = ["image/jpeg", "image/png"];
 const phoneNumberRegex =
@@ -42,37 +44,6 @@ const schema = yup.object().shape({
     .matches(phoneNumberRegex, "Phone number is not valid"),
 });
 
-const Input = ({
-  label,
-  placeholder,
-  defaultValue,
-  register,
-  required,
-  area,
-  error,
-}) => (
-  <section>
-    <label className="form__label">{label}</label>
-    {area ? (
-      <textarea
-        className="form__textarea"
-        rows="3"
-        {...register(label, { required })}
-        placeholder={placeholder}
-        defaultValue={defaultValue}
-      ></textarea>
-    ) : (
-      <input
-        className="form__input"
-        {...register(label, { required })}
-        placeholder={placeholder}
-        defaultValue={defaultValue}
-      />
-    )}
-    <p>{error}</p>
-  </section>
-);
-
 const EditUser = ({ user }) => {
   const {
     register,
@@ -82,6 +53,7 @@ const EditUser = ({ user }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
   const watchAvatar = watch("avatar");
   let imgUrl = user.img || "https://via.placeholder.com/150";
   if (watchAvatar?.length > 0) imgUrl = URL.createObjectURL(watchAvatar[0]);
@@ -136,14 +108,14 @@ const EditUser = ({ user }) => {
             {...register("avatar")}
           />
           <p>{errors.avatar?.message}</p>
-          <Input
+          <EditInput
             label="name"
             register={register}
             placeholder="Enter your name..."
             defaultValue={user.name}
             error={errors.name?.message}
           />
-          <Input
+          <EditInput
             label="bio"
             register={register}
             placeholder="Enter your bio..."
@@ -151,26 +123,28 @@ const EditUser = ({ user }) => {
             area
             error={errors.bio?.message}
           />
-          <Input
+          <EditInput
             label="phone"
             register={register}
             placeholder="Enter your phone..."
             defaultValue={user.phone}
             error={errors.phone?.message}
           />
-          <Input
+          <EditInput
             label="email"
             register={register}
             placeholder="Enter your email..."
             defaultValue={user.email}
             error={errors.email?.message}
           />
-          <Input
-            label="password"
-            register={register}
-            placeholder="Enter your new password..."
-            error={errors.password?.message}
-          />
+          {!user.oauth && (
+            <EditInput
+              label="password"
+              register={register}
+              placeholder="Enter your new password..."
+              error={errors.password?.message}
+            />
+          )}
           <input className="form__submit" type="submit" value="Save" />
         </form>
       </section>

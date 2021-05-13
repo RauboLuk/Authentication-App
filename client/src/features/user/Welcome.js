@@ -28,7 +28,7 @@ const Home = ({ user }) => {
           <img
             className="profile__avatar"
             src={user.img || "https://via.placeholder.com/150"}
-            alt="avatar"
+            alt="user avatar"
           />
         </section>
         <hr className="profile__line" />
@@ -51,11 +51,15 @@ const Home = ({ user }) => {
           <p className="profile__fieldDesc">email</p>
           <p className="profile__text">{user.email || "undefined"}</p>
         </section>
-        <hr className="profile__line" />
-        <section className="profile__section">
-          <p className="profile__fieldDesc">password</p>
-          <p className="profile__text">************</p>
-        </section>
+        {!user.oauth && (
+          <>
+            <hr className="profile__line" />
+            <section className="profile__section">
+              <p className="profile__fieldDesc">password</p>
+              <p className="profile__text">************</p>
+            </section>
+          </>
+        )}
       </section>
     </div>
   );
