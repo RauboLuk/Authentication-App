@@ -8,25 +8,38 @@ import "./EditUser.css";
 import { editUser } from "./userSlice";
 
 const allowedFileTypes = ["image/jpeg", "image/png"];
+const phoneNumberRegex =
+  /^(((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4})?$/;
 
-// avatar: yup
-//   .mixed()
-//   .notRequired()
-//   .test("type", "Supported file types: .jpg .png", (value) => {
-//     if (!value.length) return true;
-//     console.log(value[0].type);
-//     return value && allowedFileTypes.includes(value[0].type);
-//   })
-//   .test("fileSize", "The file is too large", (value) => {
-//     if (!value.length) return true;
-//     return value && value[0].size <= 2000000;
-//   }),
-// email: yup.string().required().email(),
-// password: yup.string().matches(new RegExp("^[a-zA-Z0-9]{5,30}$"), {
-//   message: "allowed length 5-30, allowed chars a-z A-Z 0-9",
-//   excludeEmptyString: true,
-// }),
 const schema = yup.object().shape({
+  avatar: yup
+    .mixed()
+    .test("type", "Supported file types: .jpg .png", (value) => {
+      if (!value.length) return true;
+      console.log(value[0].type);
+      return value && allowedFileTypes.includes(value[0].type);
+    })
+    .test("fileSize", "File is too large. Maximum size 2MB", (value) => {
+      if (!value.length) return true;
+      return value && value[0].size <= 2 * 1000 * 1000;
+    }),
+  email: yup
+    .string()
+    .email("Please enter a valid email address")
+    .required("Email is required."),
+  password: yup
+    .string()
+    .transform((value) => (!value ? undefined : value))
+    .matches(new RegExp("^[a-zA-Z0-9]*$"), {
+      message: "Allowed chars a-z A-Z 0-9",
+      excludeEmptyString: true,
+    })
+    .optional()
+    .min(5, "Minimum password length: 5"),
+  phone: yup
+    .string()
+    .optional()
+    .matches(phoneNumberRegex, "Phone number is not valid"),
 });
 
 const Input = ({
@@ -36,6 +49,7 @@ const Input = ({
   register,
   required,
   area,
+  error,
 }) => (
   <section>
     <label className="form__label">{label}</label>
@@ -55,6 +69,7 @@ const Input = ({
         defaultValue={defaultValue}
       />
     )}
+    <p>{error}</p>
   </section>
 );
 
@@ -120,11 +135,13 @@ const EditUser = ({ user }) => {
             hidden
             {...register("avatar")}
           />
+          <p>{errors.avatar?.message}</p>
           <Input
             label="name"
             register={register}
             placeholder="Enter your name..."
             defaultValue={user.name}
+            error={errors.name?.message}
           />
           <Input
             label="bio"
@@ -132,23 +149,27 @@ const EditUser = ({ user }) => {
             placeholder="Enter your bio..."
             defaultValue={user.bio}
             area
+            error={errors.bio?.message}
           />
           <Input
             label="phone"
             register={register}
             placeholder="Enter your phone..."
             defaultValue={user.phone}
+            error={errors.phone?.message}
           />
           <Input
             label="email"
             register={register}
             placeholder="Enter your email..."
             defaultValue={user.email}
+            error={errors.email?.message}
           />
           <Input
             label="password"
             register={register}
             placeholder="Enter your new password..."
+            error={errors.password?.message}
           />
           <input className="form__submit" type="submit" value="Save" />
         </form>
