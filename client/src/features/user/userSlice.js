@@ -15,10 +15,23 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
 });
 
 export const editUser = createAsyncThunk("user/editUser", async (data) => {
-  console.log(data);
   const response = await userService.update(data);
   return response.data;
 });
+
+export const signupUser = createAsyncThunk(
+  "user/signupUser",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await authService.signup(data);
+      sessionStorage.setItem("isLoggedIn", true);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
 
 export const logoutUser = createAsyncThunk("user/logout", async () => {
   await authService.logout();
@@ -74,6 +87,22 @@ const userSlice = createSlice({
     [editUser.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
+    },
+    [signupUser.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [signupUser.fulfilled]: (state, action) => {
+      state.status = "succeeded";
+      state.error = null;
+      state.user = action.payload;
+    },
+    [signupUser.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.payload;
+      state.user = null;
+    },
+    [loginUser.pending]: (state, action) => {
+      state.status = "loading";
     },
     [loginUser.fulfilled]: (state, action) => {
       state.status = "succeeded";

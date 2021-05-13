@@ -1,34 +1,28 @@
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./SignUp.css";
 
 import logo from "../../assets/images/devchallenges.svg";
 import githubLogo from "../../assets/images/Gihub.svg";
 import OauthButton from "./OauthButton";
 import AuthenticationForm from "./AuthenticationForm";
-
-import Snackbar from "@material-ui/core/Snackbar";
-import { useState } from "react";
-import axios from "axios";
-axios.defaults.withCredentials = true;
+import { selectUserStatus, signupUser } from "./userSlice";
 
 const SignUp = () => {
-  let history = useHistory();
-  const [error, setError] = useState(null);
-  if (error) {
-    setTimeout(() => setError(null), 3000);
-  }
+  const dispatch = useDispatch();
+  const status = useSelector(selectUserStatus);
 
   const schema = yup.object().shape({
-    email: yup.string().required().email(),
+    email: yup.string().required().email('Please enter a valid email address.'),
     password: yup
       .string()
-      .required()
+      .required("Password is required.")
       .matches(
-        new RegExp("^[a-zA-Z0-9]{5,30}$"),
-        "allowed length 5-30, allowed chars a-z A-Z 0-9"
+        new RegExp("^[a-zA-Z0-9]{5,}$"),
+        "Minimum password length: 5, allowed chars a-z A-Z 0-9"
       ),
   });
 
@@ -40,24 +34,11 @@ const SignUp = () => {
     resolver: yupResolver(schema),
   });
   const onSubmit = async (data) => {
-    try {
-      const newUser = await axios.post(
-        "http://localhost:3000/api/auth/signup",
-        data
-      );
-      console.log("returned user", newUser.data);
-      // TODO user after signingup isn't in store
-      history.push("/loggedIn");
-    } catch (err) {
-      if (err.response.data) {
-        setError(err.response.data.errors);
-      } else console.log(err);
-    }
+    dispatch(signupUser(data));
   };
 
   return (
     <section className="signUp">
-      <Snackbar open={!!error} message={`${error?.email || error?.password}`} />
       <div className="signUp__box">
         <img src={logo} className="signUp__appLogo" alt="logo" />
         <h1 className="signUp__title">
@@ -72,6 +53,7 @@ const SignUp = () => {
           onSubmit={onSubmit}
           register={register}
           errors={errors}
+          isButtondisabled={status === "loading"}
         />
         <p className="signUp__text">or continue with these social profile</p>
         <section className="signUp__oauth">

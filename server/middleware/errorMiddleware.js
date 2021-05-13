@@ -25,7 +25,6 @@ const errorHandler = (error, request, response, next) => {
     });
 
   if (error.name === "TypeError") {
-    console.log(error);
     return response.redirect("http://localhost:3001/signup");
   }
 

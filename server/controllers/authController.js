@@ -15,7 +15,7 @@ module.exports.signup_post = async (req, res, next) => {
     const token = auth.createToken(createdUser.id);
     auth.addJwtCookie(res, token);
 
-    res.status(201);
+    res.status(201).json(createdUser);
   } catch (error) {
     next(error);
   }
@@ -33,7 +33,7 @@ module.exports.login_post = async (req, res, next) => {
     const token = auth.createToken(user.id);
     auth.addJwtCookie(res, token);
 
-    res.status(200);
+    res.status(200).json(user);
   } catch (error) {
     next(error);
   }
