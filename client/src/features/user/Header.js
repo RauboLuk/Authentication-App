@@ -10,7 +10,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 
 import { useDispatch } from "react-redux";
-import { signout } from "./userSlice";
+import { logoutUser } from "./userSlice";
 import { Link } from "react-router-dom";
 
 
@@ -28,7 +28,7 @@ const Header = ({ name, avatarUrl }) => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    dispatch(signout());
+    dispatch(logoutUser());
   }
 
   return (

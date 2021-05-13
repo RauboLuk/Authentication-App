@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
-import Snackbar from "@material-ui/core/Snackbar";
+import { Link } from "react-router-dom";
 import "./Login.css";
 
 import logo from "../../assets/images/devchallenges.svg";
@@ -13,16 +11,10 @@ import githubLogo from "../../assets/images/Gihub.svg";
 import OauthButton from "./OauthButton";
 import AuthenticationForm from "./AuthenticationForm";
 
-import { fetchUser } from "./userSlice";
+import { loginUser, selectUserError } from "./userSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
-
-  let history = useHistory();
-  const [loginError, setLoginError] = useState(null);
-  if (loginError) {
-    setTimeout(() => setLoginError(null), 3000);
-  }
 
   const schema = yup.object().shape({
     email: yup.string().required().email(),
@@ -42,26 +34,13 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
   const onSubmit = async (data) => {
-    try {
-      const user = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        data
-      );
-      // TODO remove
-      console.log("returned user", user.data);
-      dispatch(fetchUser());
-      history.push("/welcome");
-    } catch (err) {
-      if (err.response.data) {
-        setLoginError(err.response.data.errors);
-      } else console.log(err);
-    }
+    dispatch(loginUser(data));
   };
 
   return (
     <section className="login">
-      <Snackbar open={!!loginError} message="Login failed. Try again..." />
       <div className="login__box">
         <img src={logo} className="login__appLogo" alt="logo" />
         <h1 className="login__title">Login</h1>

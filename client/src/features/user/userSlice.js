@@ -9,7 +9,8 @@ const initialState = {
 };
 
 export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
-  const response = await userService.profile();
+  const response = await userService.getProfile();
+  sessionStorage.setItem("isLoggedIn", true);
   return response.data;
 });
 
@@ -19,10 +20,24 @@ export const editUser = createAsyncThunk("user/editUser", async (data) => {
   return response.data;
 });
 
-export const signout = createAsyncThunk("user/signout", async () => {
-  await authService.signout();
+export const logoutUser = createAsyncThunk("user/logout", async () => {
+  await authService.logout();
+  sessionStorage.removeItem("isLoggedIn");
   return {};
 });
+
+export const loginUser = createAsyncThunk(
+  "user/login",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await authService.login(data);
+      sessionStorage.setItem("isLoggedIn", true);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -30,6 +45,9 @@ const userSlice = createSlice({
   reducers: {
     logout: (state) => {
       state = initialState;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
     },
   },
   extraReducers: {
@@ -43,7 +61,7 @@ const userSlice = createSlice({
     },
     [fetchUser.rejected]: (state, action) => {
       state.status = "failed";
-      state.error = action.error.message;
+      // state.error = action.payload;
     },
     [editUser.pending]: (state, action) => {
       state.status = "loading";
@@ -57,7 +75,17 @@ const userSlice = createSlice({
       state.status = "failed";
       state.error = action.error.message;
     },
-    [signout.fulfilled]: (state, action) => {
+    [loginUser.fulfilled]: (state, action) => {
+      state.status = "succeeded";
+      state.error = null;
+      state.user = action.payload;
+    },
+    [loginUser.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.payload;
+      state.user = null;
+    },
+    [logoutUser.fulfilled]: (state, action) => {
       state.status = "succeeded";
       state.error = null;
       state.user = null;
@@ -65,8 +93,10 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, setError } = userSlice.actions;
 
 export const selectUser = (state) => state.user.user;
+export const selectUserStatus = (state) => state.user.status;
+export const selectUserError = (state) => state.user.error;
 
 export default userSlice.reducer;

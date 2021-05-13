@@ -9,24 +9,24 @@ import { editUser } from "./userSlice";
 
 const allowedFileTypes = ["image/jpeg", "image/png"];
 
+// avatar: yup
+//   .mixed()
+//   .notRequired()
+//   .test("type", "Supported file types: .jpg .png", (value) => {
+//     if (!value.length) return true;
+//     console.log(value[0].type);
+//     return value && allowedFileTypes.includes(value[0].type);
+//   })
+//   .test("fileSize", "The file is too large", (value) => {
+//     if (!value.length) return true;
+//     return value && value[0].size <= 2000000;
+//   }),
+// email: yup.string().required().email(),
+// password: yup.string().matches(new RegExp("^[a-zA-Z0-9]{5,30}$"), {
+//   message: "allowed length 5-30, allowed chars a-z A-Z 0-9",
+//   excludeEmptyString: true,
+// }),
 const schema = yup.object().shape({
-  avatar: yup
-    .mixed()
-    .notRequired()
-    .test("type", "Supported file types: .jpg .png", (value) => {
-      if (!value.length) return true;
-      console.log(value[0].type);
-      return value && allowedFileTypes.includes(value[0].type);
-    })
-    .test("fileSize", "The file is too large", (value) => {
-      if (!value.length) return true;
-      return value && value[0].size <= 2000000;
-    }),
-  email: yup.string().required().email(),
-  password: yup.string().matches(new RegExp("^[a-zA-Z0-9]{5,30}$"), {
-    message: "allowed length 5-30, allowed chars a-z A-Z 0-9",
-    excludeEmptyString: true,
-  }),
 });
 
 const Input = ({
