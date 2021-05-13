@@ -24,7 +24,7 @@ module.exports.profile_put = async (req, res, next) => {
     user.bio = newData.bio;
     user.phone = newData.phone;
     user.email = newData.email;
-    if (!user.oauth && newData.password.length > 0) {
+    if (!user.oauth && newData.password?.length > 0) {
       user.password = newData.password;
     } else {
       user._keepPassword = true;
