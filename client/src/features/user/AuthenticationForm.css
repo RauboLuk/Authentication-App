@@ -1,0 +1,48 @@
+.auth__form {
+  margin-top: 20px;
+}
+
+.auth__inputBox {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  max-width: 355px;
+  height: 48px;
+  border: 1px solid var(--gray3);
+  border-radius: 8px;
+}
+
+.auth__inputBox:focus-within {
+  border: 1px solid var(--blue1);
+  border-radius: 8px;
+}
+
+.auth__input {
+  flex: 1;
+  margin-left: 12px;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--gray1);
+}
+
+.auth__submit {
+  margin-top: 22px;
+  max-width: 355px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--blue1);
+  border-radius: 8px;
+
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.auth__submit:disabled {
+  background-color: var(--gray3);
+  cursor: auto;
+}
