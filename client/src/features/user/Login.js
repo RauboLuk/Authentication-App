@@ -29,6 +29,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
+    mode: "onBlur",
     resolver: yupResolver(schema),
   });
 

@@ -34,6 +34,7 @@ const SignUp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
+    mode: "onBlur",
     resolver: yupResolver(schema),
   });
   const onSubmit = async (data) => {

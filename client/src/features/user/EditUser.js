@@ -51,6 +51,7 @@ const EditUser = ({ user }) => {
     watch,
     formState: { errors },
   } = useForm({
+    mode: "onBlur",
     resolver: yupResolver(schema),
   });
 
