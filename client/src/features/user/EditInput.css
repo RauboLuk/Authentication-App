@@ -18,6 +18,10 @@
   border-radius: 12px;
 }
 
+.input__input--br {
+  border-color: var(--red);
+}
+
 .input__input:focus {
   border: 1px solid var(--blue1);
 }
