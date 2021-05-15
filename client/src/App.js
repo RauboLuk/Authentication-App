@@ -19,7 +19,7 @@ import AuthContainer from "./features/user/AuthContainer";
 import Login from "./features/user/Login";
 import SignUp from "./features/user/SignUp";
 import Header from "./features/user/Header";
-import Welcome from "./features/user/Welcome";
+import PersonalInfo from "./features/user/PersonalInfo";
 import EditUser from "./features/user/EditUser";
 import Footer from "./app/Footer";
 
@@ -66,14 +66,14 @@ function App() {
         avatarUrl={user.img}
       />
       <Switch>
-        <Route path="/welcome">
-          <Welcome user={user} />
+        <Route path="/me">
+          <PersonalInfo user={user} />
         </Route>
         <Route path="/user/edit">
           <EditUser user={user} />
         </Route>
         <Route path="/">
-          <Redirect to="/welcome" />
+          <Redirect to="/me" />
         </Route>
       </Switch>
       <Footer />

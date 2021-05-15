@@ -1,0 +1,150 @@
+.profile {
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.profile__header {
+  text-align: center;
+}
+
+.profile__headerTitle {
+  font-size: 24px;
+  line-height: 33px;
+  font-weight: normal;
+}
+
+.profile__headerSubtitle {
+  margin-top: 7px;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.profile__data {
+  margin-top: 40px;
+}
+
+.profile__info {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.profile__infoBox {
+  flex: 1;
+}
+
+.profile__infoTitle {
+  font-size: 24px;
+  line-height: 33px;
+  font-weight: normal;
+}
+
+.profile__infoSubtitle {
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--gray2);
+  max-width: 180px;
+}
+
+.profile__infoButton {
+  height: 38px;
+  width: 95px;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--gray2);
+  border: 1px solid var(--gray2);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile__section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  padding: 20px;
+}
+
+.profile__fieldDesc {
+  text-transform: uppercase;
+  font-size: 13px;
+  line-height: 18px;
+
+  color: var(--gray3);
+}
+
+.profile__avatar {
+  object-fit: cover;
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.profile__text {
+  max-width: 65%;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--black1);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.profile__line {
+  margin: 10px 20px;
+  border: 1px solid var(--gray4);
+  border-bottom: none;
+}
+
+.profile__line--mbHidden {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .profile {
+    width: 70vw;
+    max-width: 850px;
+  }
+
+  .profile__data {
+    border: 1px solid var(--gray4);
+    border-radius: 12px;
+  }
+
+  .profile__info {
+    padding: 25px 50px;
+  }
+
+  .profile__infoSubtitle {
+    max-width: initial;
+  }
+
+  .profile__line {
+    margin: 0;
+  }
+
+  .profile__line--mbHidden {
+    display: inherit;
+  }
+
+  .profile__section {
+    padding: 27px 50px;
+    justify-content: left;
+    height: initial;
+  }
+
+  .profile__section--px10 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .profile__fieldDesc {
+    width: 30%;
+  }
+}
