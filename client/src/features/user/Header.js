@@ -49,7 +49,7 @@ const Header = ({ name, avatarUrl }) => {
           )}
           {showDropdown && (
             <nav className="header__dropdown" onBlur={handleClick}>
-              <Link className="header__link header__link--active" to="/welcome">
+              <Link className="header__link header__link--active" to="/me">
                 <AccountCircleIcon className="header__icon" />
                 My Profile
               </Link>

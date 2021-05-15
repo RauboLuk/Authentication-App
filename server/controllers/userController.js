@@ -47,7 +47,7 @@ module.exports.profile_put = async (req, res, next) => {
         user.img = "http://localhost:3000/api" + ImgPath;
       } else {
         throw new ValidationError(
-          "Invalid file type. Only jpg, png and gif image files are allowed."
+          "Invalid file type. Only jpg and png image files are allowed."
         );
       }
     } else if (newData.removeImg) {

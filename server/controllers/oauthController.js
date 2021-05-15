@@ -28,7 +28,7 @@ module.exports.github = async (req, res, next) => {
     const token = auth.createToken(user.id);
     auth.addJwtCookie(res, token);
 
-    res.redirect(`http://localhost:3001/welcome`);
+    res.redirect(`http://localhost:3001/me`);
   } catch (error) {
     next(error);
   }

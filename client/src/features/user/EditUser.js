@@ -1,12 +1,12 @@
 import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import "./EditUser.css";
 
-import { editUser } from "./userSlice";
+import { editUser, selectUserStatus } from "./userSlice";
 import EditInput from "./EditInput";
 
 const allowedFileTypes = ["image/jpeg", "image/png"];
@@ -45,6 +45,10 @@ const schema = yup.object().shape({
 });
 
 const EditUser = ({ user }) => {
+  const dispatch = useDispatch();
+  const status = useSelector(selectUserStatus);
+  const history = useHistory();
+
   const {
     register,
     handleSubmit,
@@ -59,9 +63,6 @@ const EditUser = ({ user }) => {
   let imgUrl = user.img || "https://via.placeholder.com/150";
   if (watchAvatar?.length > 0) imgUrl = URL.createObjectURL(watchAvatar[0]);
 
-  const dispatch = useDispatch();
-  let history = useHistory();
-
   const onSubmit = async (data) => {
     const formData = new FormData();
     if (data.avatar[0]) {
@@ -74,14 +75,12 @@ const EditUser = ({ user }) => {
       formData.append(entry[0], entry[1]);
     });
     dispatch(editUser(formData));
-    history.push("/welcome");
+    history.push("/me");
   };
-
-  if (errors) console.log(errors);
 
   return (
     <div className="edit">
-      <Link className="edit__back" to="/welcome">
+      <Link className="edit__back" to="/me">
         <ArrowBackIosIcon className="edit__icon" />
         Back
       </Link>
@@ -146,7 +145,12 @@ const EditUser = ({ user }) => {
               error={errors.password?.message}
             />
           )}
-          <input className="form__submit" type="submit" value="Save" />
+          <input
+            className="form__submit"
+            type="submit"
+            value="Save"
+            disabled={status === "loading"}
+          />
         </form>
       </section>
     </div>

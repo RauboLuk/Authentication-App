@@ -19,7 +19,7 @@ const mongoUrl = config.MONGODB_URI;
 
 const app = express();
 
-if (process.env.NODE_ENV.indexOf("dev") > -1) {
+if (process.env?.NODE_ENV === "dev") {
   const cors = require("cors");
   app.use(
     cors({
@@ -55,8 +55,11 @@ mongoose
     useCreateIndex: true,
   })
   .then(() => {
-    app.listen(port, () => {
-      console.log(`Authentication app listening at http://localhost:${port}`);
-    });
+    if (process.env?.NODE_ENV !== "test")
+      app.listen(port, () => {
+        console.log(`Authentication app listening at http://localhost:${port}`);
+      });
   })
   .catch((e) => console.log(e.message));
+
+module.exports = app;
