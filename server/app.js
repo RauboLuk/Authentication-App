@@ -14,7 +14,6 @@ const oauthRouter = require("./routes/oauthRoutes");
 const uploadsRouter = require("./routes/uploadsRoutes");
 const userRouter = require("./routes/userRoutes");
 
-const port = config.PORT || 3000;
 const mongoUrl = config.MONGODB_URI;
 
 const app = express();
@@ -55,10 +54,7 @@ mongoose
     useCreateIndex: true,
   })
   .then(() => {
-    if (process.env?.NODE_ENV !== "test")
-      app.listen(port, () => {
-        console.log(`Authentication app listening at http://localhost:${port}`);
-      });
+    console.log("MongoDB connected.");
   })
   .catch((e) => console.log(e.message));
 

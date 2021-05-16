@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=production node app.js",
-    "dev": "cross-env NODE_ENV=dev nodemon app.js",
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand"
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=dev nodemon index.js",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "start:test": "cross-env NODE_ENV=test node index.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
