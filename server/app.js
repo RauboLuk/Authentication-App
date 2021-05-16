@@ -18,7 +18,7 @@ const mongoUrl = config.MONGODB_URI;
 
 const app = express();
 
-if (process.env?.NODE_ENV === "dev") {
+if (process.env?.NODE_ENV !== "production") {
   const cors = require("cors");
   app.use(
     cors({
