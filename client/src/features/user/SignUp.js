@@ -69,7 +69,7 @@ const SignUp = () => {
         </section>
         <p className="signUp__text signUp__text--mt26">
           Adready a member?{" "}
-          <Link to="/signin" className="signUp__link">
+          <Link to="/signin" className="signUp__link" data-cy="signUp__link">
             Login
           </Link>
         </p>

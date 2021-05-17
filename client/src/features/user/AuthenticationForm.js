@@ -19,6 +19,7 @@ const AuthenticationForm = ({
           {...register("email")}
           type="text"
           placeholder="Email"
+          data-cy="email"
         />
       </div>
       <p>{errors.email?.message}</p>
@@ -29,6 +30,7 @@ const AuthenticationForm = ({
           {...register("password")}
           type="password"
           placeholder="Password"
+          data-cy="password"
         />
       </div>
       <p>{errors.password?.message}</p>
@@ -37,6 +39,7 @@ const AuthenticationForm = ({
         className="auth__submit"
         value="Start coding now"
         disabled={isButtondisabled}
+        data-cy="submit"
       />
     </form>
   );

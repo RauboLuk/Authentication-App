@@ -59,7 +59,7 @@ const Login = () => {
         </section>
         <p className="login__text login__text--mt26">
           Don’t have an account yet?{" "}
-          <Link to="/signup" className="login__link">
+          <Link to="/signup" className="login__link" data-cy="login__link">
             Register
           </Link>
         </p>
