@@ -13,6 +13,7 @@ const authRouter = require("./routes/authRoutes");
 const oauthRouter = require("./routes/oauthRoutes");
 const uploadsRouter = require("./routes/uploadsRoutes");
 const userRouter = require("./routes/userRoutes");
+const testRouter = require("./routes/testRoutes");
 
 const mongoUrl = config.MONGODB_URI;
 
@@ -26,6 +27,10 @@ if (process.env?.NODE_ENV !== "production") {
       credentials: true,
     })
   );
+}
+
+if (process.env?.NODE_ENV === "test") {
+  app.use("/api/test", testRouter);
 }
 
 app.use(logger("dev"));
